@@ -1,0 +1,397 @@
+<script setup lang="ts">
+import type { SalaoRequest } from '@/types/Salao';
+import { DiasSemana } from '@/enums/DiasSemana';
+import { formatarHorario } from '@/utils/formatarHorario';
+import { useToast } from 'primevue/usetoast';
+import SalaoService from '@/services/SalaoService';
+import { useRoute, useRouter } from 'vue-router';
+import { useBreadcrumbStore } from '@/stores/breadcrumbStore';
+import { ref, onBeforeMount } from 'vue';
+import { useUnidadeStore } from '@/stores/unidadeStore';
+import { useConfirm } from 'primevue/useconfirm';
+import OperadorService from '~/services/OperadorService';
+
+definePageMeta({
+  layout: 'admin',
+  middleware: ['authenticated', 'unidade-must-selected'],
+});
+
+const route = useRoute();
+const router = useRouter();
+const breadcrumbStore = useBreadcrumbStore();
+const unidadeStore = useUnidadeStore();
+const toast = useToast();
+const unidadeNome = unidadeStore.unidade?.nome_fantasia || 'Unidade';
+
+const formData = ref<any>({
+  login: '',
+  label: '',
+});
+
+const originalData = ref<any>({});
+
+const isEditing = ref({
+  login: false,
+  senha: false,
+  label: false,
+  icon: false,
+});
+
+const inputNomeRef = ref<HTMLInputElement | null>(null);
+const inputLabelRef = ref<HTMLInputElement | null>(null);
+
+const handleEditNome = () => {
+  isEditing.value.login = true;
+  inputNomeRef.value?.focus();
+  inputNomeRef.value?.select();
+};
+
+const handleSaveNome = async () => {
+  const operadorRequest: any = {
+    login: formData.value.login,
+  };
+  await updateOperador(Number(route.params.id), operadorRequest);
+  originalData.value.login = formData.value.login;
+  isEditing.value.login = false;
+};
+
+const handleCancelNome = () => {
+  formData.value.login = originalData.value.login;
+  isEditing.value.login = false;
+};
+
+const handleEditLabel = () => {
+  isEditing.value.label = true;
+  inputLabelRef.value?.focus();
+  inputLabelRef.value?.select();
+};
+
+const handleSaveLabel = async () => {
+  const operadorRequest: any = {
+    label: formData.value.label,
+  };
+  await updateOperador(Number(route.params.id), operadorRequest);
+  originalData.value.label = formData.value.label;
+  isEditing.value.label = false;
+};
+
+const handleCancelLabel = () => {
+  formData.value.label = originalData.value.label;
+  isEditing.value.label = false;
+};
+
+const handleEditIcon = () => {
+  isEditing.value.icon = true;
+};
+
+const handleSaveIcon = async () => {
+  const operadorRequest: any = {
+    icon: formData.value.icon,
+  };
+  await updateOperador(Number(route.params.id), operadorRequest);
+  originalData.value.icon = formData.value.icon;
+  isEditing.value.icon = false;
+};
+
+const handleCancelIcon = () => {
+  formData.value.icon = originalData.value.icon;
+  isEditing.value.icon = false;
+};
+
+const updateOperador = async (id: number, salaoRequest: any) => {
+  try {
+    await OperadorService.update(id, salaoRequest);
+    toast.add({
+      severity: 'success',
+      summary: 'Operador atualizado com sucesso',
+      life: 3000,
+    });
+  } catch (error) {
+    console.error(error);
+    toast.add({
+      severity: 'error',
+      summary: 'Erro ao atualizar operador',
+      life: 3000,
+    });
+  }
+};
+
+const deleteSalao = async () => {
+  try {
+    await OperadorService.delete(Number(route.params.id));
+    toast.add({
+      severity: 'success',
+      summary: 'Operador apagado com sucesso',
+      life: 3000,
+    });
+    router.push('/admin/home/operadores');
+  } catch (error) {
+    console.error(error);
+    toast.add({
+      severity: 'error',
+      summary: 'Erro ao apagar operador',
+      life: 3000,
+    });
+  }
+};
+
+const getOperador = async () => {
+  const operador = await OperadorService.get(Number(route.params.id));
+  formData.value = {
+    login: operador.login,
+    label: operador.label,
+    senha: operador.senha,
+    icon: operador.icon,
+  };
+
+  // Criar uma cópia profunda dos dados originais
+  originalData.value = JSON.parse(JSON.stringify(formData.value));
+};
+
+onBeforeMount(async () => {
+  if (!route.params.id) {
+    return router.push('/admin/home/operadores');
+  }
+
+  await getOperador();
+  breadcrumbStore.setBreadcrumb([
+    { name: unidadeNome, to: '/admin/home/' },
+    { name: 'Operadores', to: '/admin/home/operadores' },
+    {
+      name: formData.value.login ?? 'Operador',
+      to: `/admin/home/operadores/${route.params.id}`,
+    },
+  ]);
+});
+
+const confirm = useConfirm();
+const confirmDeleteSalao = (event: any) => {
+  confirm.require({
+    target: event.currentTarget,
+    message: 'Tem certeza que deseja apagar este operador?',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancelar',
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: {
+      label: 'Confirmar',
+      severity: 'danger',
+    },
+    accept: () => {
+      deleteSalao();
+    },
+  });
+};
+</script>
+
+<template>
+  <main class="container mx-auto flex h-full flex-col p-4">
+    <h3
+      class="mb-4 inline-flex cursor-pointer dark:text-surface-400 dark:hover:text-surface-100"
+      @click="router.push('/admin/home/operadores')"
+    >
+      <IconArrowLeft class="mr-1" :size="20" />
+      <span class="text-sm">Voltar</span>
+    </h3>
+
+    <div
+      class="flex-1 rounded border border-surface-300 bg-surface-0 px-4 py-2 text-sm dark:border-surface-700 dark:bg-surface-900"
+    >
+      <div class="flex items-center justify-between text-2xl">
+        Gerenciamento de operador
+
+        <div class="gap-4">
+          <Button
+            label="Apagar operador"
+            icon="pi pi-trash"
+            size="small"
+            severity="danger"
+            text
+            @click="confirmDeleteSalao"
+          />
+        </div>
+      </div>
+      <p class="mb-8 text-base text-surface-600 dark:text-surface-400">
+        As informações são salvas automaticamente.
+      </p>
+
+      <Divider class="my-4" />
+
+      <!-- Login -->
+      <div class="flex items-center px-2">
+        <span class="w-64 text-surface-600 dark:text-surface-400">Login</span>
+        <span class="flex-1 text-surface-900 dark:text-surface-0">
+          <input
+            ref="inputNomeRef"
+            v-model="formData.login"
+            class="rounded border-none bg-transparent p-1 outline-none"
+            :readonly="!isEditing.login"
+            :style="{ outline: isEditing.login ? '1px solid #FFC239' : 'none' }"
+          />
+        </span>
+
+        <div v-if="isEditing.login" class="ml-4">
+          <Button
+            class="mr-2"
+            severity="success"
+            label="Salvar"
+            size="small"
+            icon="pi pi-check"
+            text
+            @click="handleSaveNome"
+          />
+          <Button
+            class="mr-2"
+            severity="danger"
+            label="Cancelar"
+            size="small"
+            icon="pi pi-times"
+            text
+            @click="handleCancelNome"
+          />
+        </div>
+        <Button
+          v-else
+          label="Editar"
+          size="small"
+          icon="pi pi-pencil"
+          text
+          @click="handleEditNome"
+        />
+      </div>
+
+      <Divider class="my-4" />
+
+      <!-- Label -->
+      <div class="flex items-center px-2">
+        <span class="w-64 text-surface-600 dark:text-surface-400">
+          Descrição
+        </span>
+        <span class="flex-1 text-surface-900 dark:text-surface-0">
+          <input
+            ref="inputLabelRef"
+            v-model="formData.label"
+            class="rounded border-none bg-transparent p-1 outline-none"
+            :readonly="!isEditing.label"
+            :style="{ outline: isEditing.label ? '1px solid #FFC239' : 'none' }"
+          />
+        </span>
+
+        <div v-if="isEditing.label" class="ml-4">
+          <Button
+            class="mr-2"
+            severity="success"
+            label="Salvar"
+            size="small"
+            icon="pi pi-check"
+            text
+            @click="handleSaveLabel"
+          />
+          <Button
+            class="mr-2"
+            severity="danger"
+            label="Cancelar"
+            size="small"
+            icon="pi pi-times"
+            text
+            @click="handleCancelLabel"
+          />
+        </div>
+        <Button
+          v-else
+          label="Editar"
+          size="small"
+          icon="pi pi-pencil"
+          text
+          @click="handleEditLabel"
+        />
+      </div>
+
+      <Divider class="my-4" />
+
+      <!-- Ícone -->
+      <div class="flex items-center px-2">
+        <span class="w-64 text-surface-600 dark:text-surface-400">Ícone</span>
+        <span class="flex-1 text-surface-900 dark:text-surface-0">
+          <div class="flex gap-3">
+            <div
+              v-show="formData.icon === 'desktop' || isEditing.icon"
+              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+              :style="{
+                outline: formData.icon === 'desktop' ? '2px solid #FFC239' : '',
+              }"
+              @click="formData.icon = 'desktop'"
+            >
+              <IconMonitor />
+            </div>
+            <div
+              v-show="formData.icon === 'user' || isEditing.icon"
+              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+              :style="{
+                outline: formData.icon === 'user' ? '2px solid #FFC239' : '',
+              }"
+              @click="formData.icon = 'user'"
+            >
+              <IconUserRound />
+            </div>
+            <div
+              v-show="formData.icon === 'smartphone' || isEditing.icon"
+              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+              :style="{
+                outline:
+                  formData.icon === 'smartphone' ? '2px solid #FFC239' : '',
+              }"
+              @click="formData.icon = 'smartphone'"
+            >
+              <IconSmartphone />
+            </div>
+            <div
+              v-show="formData.icon === 'laptop' || isEditing.icon"
+              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+              :style="{
+                outline: formData.icon === 'laptop' ? '2px solid #FFC239' : '',
+              }"
+              @click="formData.icon = 'laptop'"
+            >
+              <IconLaptop />
+            </div>
+          </div>
+        </span>
+
+        <div v-if="isEditing.icon" class="ml-4">
+          <Button
+            class="mr-2"
+            severity="success"
+            label="Salvar"
+            size="small"
+            icon="pi pi-check"
+            text
+            @click="handleSaveIcon"
+          />
+          <Button
+            class="mr-2"
+            severity="danger"
+            label="Cancelar"
+            size="small"
+            icon="pi pi-times"
+            text
+            @click="handleCancelIcon"
+          />
+        </div>
+        <Button
+          v-else
+          label="Editar"
+          size="small"
+          icon="pi pi-pencil"
+          text
+          @click="handleEditIcon"
+        />
+      </div>
+
+      <Divider class="my-4" />
+    </div>
+  </main>
+  <ConfirmPopup></ConfirmPopup>
+</template>
