@@ -2,7 +2,7 @@
 import {
   Home,
   Workflow,
-  Tag,
+  Tag as TagIcon,
   Wallet,
   HeartPulse,
   Store,
@@ -12,6 +12,8 @@ import {
   Pickaxe,
 } from 'lucide-vue-next';
 import { useViewWrapperStore } from '@/stores/viewWrapperStore';
+import { useUsuarioStore } from '@/stores/usuarioStore';
+const usuarioStore = useUsuarioStore();
 
 const emits = defineEmits(['unidade-selected']);
 
@@ -38,26 +40,26 @@ const itemsSidebar = [
       label: 'Início',
       to: '/admin/home',
     },
-    // {
-    //   icon: Workflow,
-    //   label: 'Integrações',
-    //   to: '/admin/home/integracoes',
-    // },
-    // {
-    //   icon: Tag,
-    //   label: 'Voucher',
-    //   to: '/admin/home/vouchers',
-    // },
-    // {
-    //   icon: Wallet,
-    //   label: 'Financeiro',
-    //   to: '/admin/home/financeiro',
-    // },
-    // {
-    //   icon: HeartPulse,
-    //   label: 'Planos e benefícios',
-    //   to: '/admin/home/planos',
-    // },
+    {
+      icon: Workflow,
+      label: 'Integrações',
+      to: '/admin/home/integracoes',
+    },
+    {
+      icon: TagIcon,
+      label: 'Voucher',
+      to: '/admin/home/vouchers',
+    },
+    {
+      icon: Wallet,
+      label: 'Financeiro',
+      to: '/admin/home/financeiro',
+    },
+    {
+      icon: HeartPulse,
+      label: 'Planos e benefícios',
+      to: '/admin/home/planos',
+    },
   ],
   [
     {
@@ -65,16 +67,16 @@ const itemsSidebar = [
       label: 'Estrutura',
       to: '/admin/home/estrutura',
     },
-    // {
-    //   icon: Clock,
-    //   label: 'Horários',
-    //   to: '/admin/home/horarios',
-    // },
-    // {
-    //   icon: BookOpen,
-    //   label: 'Regras de negócio',
-    //   to: '/admin/home/regras',
-    // },
+    {
+      icon: Clock,
+      label: 'Horários',
+      to: '/admin/home/horarios',
+    },
+    {
+      icon: BookOpen,
+      label: 'Regras de negócio',
+      to: '/admin/home/regras',
+    },
     {
       icon: Pickaxe,
       label: 'Operadores',
@@ -87,6 +89,19 @@ const itemsSidebar = [
     },
   ],
 ];
+
+const popoverDadosPerfil = ref();
+const toggleDadosPerfil = (event) => {
+  popoverDadosPerfil.value.toggle(event);
+};
+
+const dialogConfirmarSaida = ref(false);
+const dialogConfiguracoes = ref(false);
+
+const handleLogout = async () => {
+  await usuarioStore.logout();
+  navigateTo('/admin/login');
+};
 </script>
 
 <template>
@@ -146,18 +161,125 @@ const itemsSidebar = [
       </template>
     </div>
 
-    <div class="c-sidebar__item p-4">
-      <IconHelpCircle :size="16" />
-      <span class="ml-2">Ajuda</span>
+    <div class="c-sidebar__item p-3" @click="toggleDadosPerfil">
+      <div class="flex items-center gap-2">
+        <AppAvatar
+          v-if="usuarioStore.user.nome"
+          :letra="usuarioStore.user.nome[0]"
+        />
+        <Skeleton v-else shape="circle" size="1.6rem" />
+        <span class="!ml-2">{{ usuarioStore.user.nome }}</span>
+      </div>
+
+      <IconChevronUp
+        :size="16"
+        class="right-4 text-surface-600 dark:text-surface-300"
+        sidebar-behavior="hidden"
+      />
     </div>
   </aside>
+
+  <Popover
+    ref="popoverDadosPerfil"
+    unstyled
+    class="mt-1 border border-surface-300 bg-surface-0 py-2 shadow-lg dark:border-surface-700 dark:bg-surface-900"
+    :pt="{
+      root: {
+        style: {
+          marginLeft: '2rem',
+        },
+      },
+    }"
+  >
+    <div class="flex w-[16.8rem] flex-col text-sm">
+      <div class="py-4 text-center">
+        <AppAvatar
+          v-if="usuarioStore.user.nome"
+          size="xlarge"
+          :letra="usuarioStore.user.nome[0]"
+        />
+        <Skeleton v-else shape="circle" size="3.2rem" class="mx-auto" />
+        <div class="mt-2">
+          <h4 class="mb-1 text-sm dark:text-surface-0">
+            {{ usuarioStore.user.nome }}
+          </h4>
+          <p class="text-xs dark:text-surface-300">
+            {{ usuarioStore.user.email }}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="interativo flex cursor-pointer items-center justify-between px-6 py-3 text-xs"
+      >
+        <div class="flex items-center">
+          <IconCircleUserRound :size="16" />
+          <span class="ml-4">Meu perfil</span>
+        </div>
+        <Tag
+          class="capitalize"
+          :value="usuarioStore.user.tipo"
+          :pt="{
+            label: 'text-[10px]',
+          }"
+        />
+      </div>
+
+      <div
+        class="interativo flex cursor-pointer items-center px-6 py-3 text-xs"
+        @click="dialogConfiguracoes = true"
+      >
+        <IconSettings :size="16" />
+        <span class="ml-4">Configurações</span>
+      </div>
+
+      <div class="my-2 h-[1px] bg-surface-300 dark:bg-surface-700" />
+
+      <div
+        class="interativo flex cursor-pointer items-center px-6 py-3 text-xs text-red-500 dark:text-red-400"
+        @click="dialogConfirmarSaida = true"
+      >
+        <IconLogOut :size="16" />
+        <span class="ml-4">Deslogar</span>
+      </div>
+    </div>
+  </Popover>
+
+  <Dialog
+    v-model:visible="dialogConfirmarSaida"
+    modal
+    class="w-[24rem]"
+    header="Sair do sistema?"
+    :draggable="false"
+  >
+    <div class="text-sm">
+      <p>Um novo login será necessário para ser reconectado.</p>
+    </div>
+    <div class="mt-4 flex justify-end gap-2">
+      <Button
+        text
+        label="Cancelar"
+        size="small"
+        severity="secondary"
+        @click="dialogConfirmarSaida = false"
+      />
+      <Button
+        label="Confirmar"
+        size="small"
+        severity="danger"
+        @click="handleLogout"
+      />
+    </div>
+  </Dialog>
+
+  <CommonModalConfiguracoes v-model:visible="dialogConfiguracoes" />
 </template>
 
 <style lang="scss" scoped>
 .c-sidebar {
   @apply flex flex-col border-r border-surface-300 bg-surface-0 text-xs dark:border-surface-700 dark:bg-surface-900;
 
-  width: 48px;
+  width: 49px;
   transition: width 0.3s ease-in-out;
   overflow: hidden;
 
@@ -201,9 +323,14 @@ const itemsSidebar = [
       @apply opacity-75;
       position: absolute;
     }
+
     & span {
       @apply ml-8;
-      opacity: 0;
+    }
+
+    & span,
+    & [sidebar-behavior='hidden'] {
+      @apply opacity-0;
       transition: opacity 0.3s ease-in-out;
     }
   }
@@ -226,7 +353,8 @@ const itemsSidebar = [
     }
 
     .c-sidebar__item {
-      & span {
+      & span,
+      & [sidebar-behavior='hidden'] {
         opacity: 1;
       }
     }
