@@ -132,7 +132,7 @@ onMounted(() => {
         </span>
       </div>
       <span v-if="unidade.id === unidadeStore.unidade?.id">
-        <IconCheckCheck :size="16" color="#FFC239" />
+        <IconCheck :size="16" color="#FFC239" />
       </span>
     </div>
 

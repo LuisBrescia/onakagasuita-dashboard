@@ -64,3 +64,7 @@ html.dark {
 pre {
   @apply mx-auto mt-4 w-fit border bg-surface-100 p-2 dark:bg-surface-900;
 }
+
+.page-content {
+  @apply flex flex-1 flex-col;
+}

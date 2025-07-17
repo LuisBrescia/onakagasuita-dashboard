@@ -34,26 +34,33 @@ const formData = ref({
 </script>
 
 <template>
-  <main class="relative h-full p-4">
-    <div
-      class="container mx-auto grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
-      v-if="operadoresData.length"
-    >
-      <AdminOperadorCard
-        v-for="operador in operadoresData"
-        :key="operador.id"
-        :operador="operador"
-        @click="navigateTo(`/admin/home/operadores/${operador.id}`)"
-      />
-    </div>
+  <div class="page-content">
+    <TheTopbar>
+      <template #actions>
+        <Button
+          size="small"
+          icon="pi pi-plus"
+          label="Adicionar"
+          @click="navigateTo('/admin/home/operadores/adicionar')"
+        />
+      </template>
+    </TheTopbar>
+    <main class="relative h-full p-4">
+      <div
+        class="container mx-auto grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
+        v-if="operadoresData.length"
+      >
+        <AdminOperadorCard
+          v-for="operador in operadoresData"
+          :key="operador.id"
+          :operador="operador"
+          @click="navigateTo(`/admin/home/operadores/${operador.id}`)"
+        />
+      </div>
 
-    <Button
-      class="absolute right-4 top-4"
-      color="primary"
-      size="small"
-      icon="pi pi-plus"
-      label="Criar novo operador"
-      @click="navigateTo('/admin/home/operadores/adicionar')"
-    />
-  </main>
+      <div v-else class="grid h-full place-items-center">
+        <p class="text-center text-xl">Nenhum operador cadastrado</p>
+      </div>
+    </main>
+  </div>
 </template>

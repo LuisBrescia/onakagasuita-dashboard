@@ -99,10 +99,11 @@ const Brescia = definePreset(Aura, {
     },
     button: {
       borderRadius: '{border.radius.xs}',
+      // borderRadius: '{border.radius.md}',
       sm: {
         paddingX: '.75rem',
         paddingY: '.5rem',
-        fontSize: '.875rem',
+        fontSize: '.75rem',
       },
       label: {
         fontWeight: '500',

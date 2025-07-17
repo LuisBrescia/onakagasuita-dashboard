@@ -1,16 +1,32 @@
+<script setup lang="ts"></script>
+
 <template>
-  <nav
+  <!-- <nav
     class="bg-surface-white flex justify-between border-b border-surface-300 bg-surface-0 px-4 py-2 dark:border-surface-700 dark:bg-surface-900"
+  > -->
+  <nav
+    class="bg-surface-white mb-4 flex justify-between border-surface-300 pt-6 dark:border-surface-700"
   >
     <TheBreadcrumb />
 
+    <div class="flex items-center gap-2">
+      <slot name="actions"></slot>
+      <Button
+        size="small"
+        icon="pi pi-info-circle"
+        severity="secondary"
+        outlined
+        label="Tour"
+      />
+    </div>
+
     <!-- * Searchbox -->
-    <div
+    <!-- <div
       class="rounded-custom flex cursor-pointer items-center p-2 dark:bg-surface-800"
     >
       <IconSearch :size="12" />
       <span class="ml-2 text-xs text-surface-500">Pesquisar onakagasuita</span>
-    </div>
+    </div> -->
 
     <!-- * Botão de perfil -->
     <!-- <Button

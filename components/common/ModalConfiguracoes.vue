@@ -61,10 +61,7 @@ const recordTemaOptions: Record<Tema, string> = {
           @click="colorMode.preference = option.value"
         >
           <span class="text-sm">{{ option.label }}</span>
-          <IconCheckCheck
-            v-if="colorMode.preference === option.value"
-            :size="16"
-          />
+          <IconCheck v-if="colorMode.preference === option.value" :size="16" />
         </div>
       </div>
     </Popover>

@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const colorMode = useColorMode();
-const brightness = computed(() => (colorMode.preference === 'light' ? 50 : 30));
+const brightness = computed(() => (colorMode.preference === 'light' ? 50 : 20));
 
 const getColors = (letra: string | undefined) => {
   if (!letra) {

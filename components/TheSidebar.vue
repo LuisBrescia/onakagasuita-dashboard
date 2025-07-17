@@ -13,24 +13,9 @@ import {
 } from 'lucide-vue-next';
 import { useViewWrapperStore } from '@/stores/viewWrapperStore';
 import { useUsuarioStore } from '@/stores/usuarioStore';
-const usuarioStore = useUsuarioStore();
+import { useUnidadeStore } from '@/stores/unidadeStore';
 
 const emits = defineEmits(['unidade-selected']);
-
-const route = useRoute();
-const viewWrapperStore = useViewWrapperStore();
-const nextChangeIcon = {
-  'pi-arrow-left': 'pi-arrow-right',
-  'pi-arrow-right': 'pi-arrow-left',
-};
-const panelStatusIcon = ref();
-panelStatusIcon.value = viewWrapperStore.sidebarOpen
-  ? 'pi-arrow-left'
-  : 'pi-arrow-right';
-const handlePanelChange = () => {
-  panelStatusIcon.value = nextChangeIcon[panelStatusIcon.value];
-  viewWrapperStore.toggleSidebar();
-};
 
 const itemsSidebar = [
   // * Seção geral
@@ -61,6 +46,7 @@ const itemsSidebar = [
       to: '/admin/home/planos',
     },
   ],
+  // * Específicos de unidade
   [
     {
       icon: Store,
@@ -89,14 +75,32 @@ const itemsSidebar = [
     },
   ],
 ];
-
-const popoverDadosPerfil = ref();
-const toggleDadosPerfil = (event) => {
-  popoverDadosPerfil.value.toggle(event);
+const nextChangeIcon = {
+  'pi-arrow-left': 'pi-arrow-right',
+  'pi-arrow-right': 'pi-arrow-left',
 };
+
+const route = useRoute();
+
+const usuarioStore = useUsuarioStore();
+const unidadeStore = useUnidadeStore();
+const viewWrapperStore = useViewWrapperStore();
 
 const dialogConfirmarSaida = ref(false);
 const dialogConfiguracoes = ref(false);
+const popoverDadosPerfil = ref();
+const panelStatusIcon = ref(
+  viewWrapperStore.sidebarOpen ? 'pi-arrow-left' : 'pi-arrow-right',
+);
+
+const openPerfilPopover = (event) => {
+  popoverDadosPerfil.value.toggle(event);
+};
+
+const handlePanelChange = () => {
+  panelStatusIcon.value = nextChangeIcon[panelStatusIcon.value];
+  viewWrapperStore.toggleSidebar();
+};
 
 const handleLogout = async () => {
   await usuarioStore.logout();
@@ -148,20 +152,24 @@ const handleLogout = async () => {
 
       <CommonSelectUnidade @unidade-selected="emits('unidade-selected')" />
 
-      <template v-for="item in itemsSidebar[1]" :key="item">
-        <NuxtLink :to="item.to">
-          <div
-            class="c-sidebar__item px-4 py-2"
-            :class="{ 'is-active': route.path.startsWith(item.to) }"
-          >
-            <component :is="item.icon" :size="16" />
-            <span class="ml-2 text-nowrap">{{ item.label }}</span>
-          </div>
-        </NuxtLink>
-      </template>
+      <span
+        :class="!unidadeStore.unidade ? 'pointer-events-none opacity-50' : ''"
+      >
+        <template v-for="item in itemsSidebar[1]" :key="item">
+          <NuxtLink :to="item.to">
+            <div
+              class="c-sidebar__item px-4 py-2"
+              :class="{ 'is-active': route.path.startsWith(item.to) }"
+            >
+              <component :is="item.icon" :size="16" />
+              <span class="ml-2 text-nowrap">{{ item.label }}</span>
+            </div>
+          </NuxtLink>
+        </template>
+      </span>
     </div>
 
-    <div class="c-sidebar__item p-3" @click="toggleDadosPerfil">
+    <div class="c-sidebar__item p-3" @click="openPerfilPopover">
       <div class="flex items-center gap-2">
         <AppAvatar
           v-if="usuarioStore.user.nome"
@@ -186,7 +194,7 @@ const handleLogout = async () => {
     :pt="{
       root: {
         style: {
-          marginLeft: '2rem',
+          marginLeft: '9px',
         },
       },
     }"
@@ -288,7 +296,7 @@ const handleLogout = async () => {
     position: relative;
 
     &__branding {
-      @apply flex items-center gap-1 font-black;
+      @apply flex items-center gap-1 font-semibold;
       position: relative;
       top: 2px;
       text-wrap: nowrap;

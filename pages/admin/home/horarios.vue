@@ -15,7 +15,11 @@ breadcrumbStore.setBreadcrumb([
 </script>
 
 <template>
-  <main class="p-4">
-    <h1 class="text-2xl">Gerenciar mesas</h1>
-  </main>
+  <div class="page-content">
+    <TheTopbar />
+
+    <main>
+      <h1 class="text-2xl">Gerenciar mesas</h1>
+    </main>
+  </div>
 </template>
