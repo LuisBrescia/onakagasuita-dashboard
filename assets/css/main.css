@@ -68,3 +68,7 @@ pre {
 .page-content {
   @apply flex flex-1 flex-col;
 }
+
+.page-inner {
+  @apply h-full px-4;
+}

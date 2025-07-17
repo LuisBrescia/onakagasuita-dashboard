@@ -40,6 +40,7 @@ const diasFuncionamentoOptions = [
   { label: 'Sábado', value: DiasSemana.SABADO },
 ];
 
+const handleFormSubmitLoading = ref(false);
 const handleFormSubmit = async () => {
   const salaoRequest: SalaoRequest = {
     nome: formData.value.nome,
@@ -53,7 +54,12 @@ const handleFormSubmit = async () => {
     dias_funcionamento: formData.value.diasFuncionamento,
   };
 
-  await createSalao(salaoRequest);
+  handleFormSubmitLoading.value = true;
+  try {
+    await createSalao(salaoRequest);
+  } finally {
+    handleFormSubmitLoading.value = false;
+  }
 };
 
 const createSalao = async (salaoRequest: SalaoRequest) => {
@@ -95,89 +101,97 @@ const getSalao = async (id: number) => {
 </script>
 
 <template>
-  <main class="container mx-auto flex h-full flex-col p-4">
-    <h6
-      class="mb-4 inline-flex cursor-pointer dark:text-surface-400 dark:hover:text-surface-100"
-      @click="navigateTo('/admin/home/estrutura')"
-    >
-      <IconArrowLeft class="mr-1" :size="20" />
-      <span class="text-sm">Voltar</span>
-    </h6>
+  <div class="page-content">
+    <TheTopbar>
+      <template #actions>
+        <Button
+          label="Voltar"
+          @click="navigateTo('/admin/home/estrutura')"
+          size="small"
+          outlined
+          icon="pi pi-arrow-left"
+          severity="secondary"
+        />
 
-    <div
-      class="relative flex-1 rounded border border-surface-300 bg-surface-0 p-4 text-sm dark:border-surface-700 dark:bg-surface-900"
-    >
-      <Button
-        label="Adicionar"
-        @click="handleFormSubmit"
-        size="small"
-        icon="pi pi-plus"
-        class="absolute right-4 top-4"
-      />
+        <Button
+          severity="success"
+          size="small"
+          icon="pi pi-save"
+          label="Salvar"
+          :loading="handleFormSubmitLoading"
+          @click="handleFormSubmit"
+        />
+      </template>
+    </TheTopbar>
 
-      <div class="text-2xl">Novo salão</div>
-      <p class="text-base text-surface-600 dark:text-surface-400">
-        Será exibido no painel operacional automaticamente.
-      </p>
+    <main class="page-inner container mx-auto flex h-full flex-col">
+      <span class="my-8 text-center">
+        <div class="text-2xl">Novo salão</div>
+        <p class="text-base text-surface-600 dark:text-surface-400">
+          Será exibido no painel operacional automaticamente.
+        </p>
+      </span>
 
-      <Divider class="my-4" />
+      <div
+        class="rounded border border-surface-300 bg-surface-0 p-4 text-sm dark:border-surface-700 dark:bg-surface-900"
+      >
+        <div class="mx-auto grid w-full grid-cols-1 gap-8 md:grid-cols-2">
+          <!--* Nome -->
+          <div class="flex flex-col gap-2">
+            <label for="nome">Nome</label>
+            <InputText
+              id="nome"
+              v-model="formData.nome"
+              aria-describedby="Nome-help"
+            />
+          </div>
 
-      <div class="mx-auto grid w-full grid-cols-1 gap-8 md:grid-cols-2">
-        <!--* Nome -->
-        <div class="flex flex-col gap-2">
-          <label for="nome">Nome</label>
-          <InputText
-            id="nome"
-            v-model="formData.nome"
-            aria-describedby="Nome-help"
-          />
-        </div>
+          <!--* Dias de funcionamento -->
+          <div class="flex flex-col gap-2">
+            <label for="horarioInicio">Dias semana</label>
+            <MultiSelect
+              v-model="formData.diasFuncionamento"
+              :options="diasFuncionamentoOptions"
+              optionLabel="label"
+              optionValue="value"
+            />
+          </div>
 
-        <!--* Dias de funcionamento -->
-        <div class="flex flex-col gap-2">
-          <label for="horarioInicio">Dias semana</label>
-          <MultiSelect
-            v-model="formData.diasFuncionamento"
-            :options="diasFuncionamentoOptions"
-            optionLabel="label"
-            optionValue="value"
-          />
-        </div>
+          <!--* Horário de funcionamento inicial -->
+          <div class="flex flex-col gap-2">
+            <label for="horarioInicio">Horário início</label>
+            <DatePicker
+              id="horarioInicio"
+              v-model="formData.horarioFuncionamentoInicio"
+              showIcon
+              fluid
+              iconDisplay="input"
+              timeOnly
+            >
+              <template #inputicon="slotProps">
+                <i class="pi pi-clock" @click="slotProps.clickCallback" />
+              </template>
+            </DatePicker>
+          </div>
 
-        <!--* Horário de funcionamento inicial -->
-        <div class="flex flex-col gap-2">
-          <label for="horarioInicio">Horário início</label>
-          <DatePicker
-            id="horarioInicio"
-            v-model="formData.horarioFuncionamentoInicio"
-            showIcon
-            fluid
-            iconDisplay="input"
-            timeOnly
-          >
-            <template #inputicon="slotProps">
-              <i class="pi pi-clock" @click="slotProps.clickCallback" />
-            </template>
-          </DatePicker>
-        </div>
-
-        <!--* Horário de funcionamento final -->
-        <div class="flex flex-col gap-2">
-          <label for="horarioFinal">Horário final</label>
-          <DatePicker
-            id="horarioFinal"
-            v-model="formData.horarioFuncionamentoFinal"
-            showIcon
-            fluid
-            iconDisplay="input"
-            timeOnly
-          >
-            <template #inputicon="slotProps">
-              <i class="pi pi-clock" @click="slotProps.clickCallback" />
-            </template>
-          </DatePicker>
+          <!--* Horário de funcionamento final -->
+          <div class="flex flex-col gap-2">
+            <label for="horarioFinal">Horário final</label>
+            <DatePicker
+              id="horarioFinal"
+              v-model="formData.horarioFuncionamentoFinal"
+              showIcon
+              fluid
+              iconDisplay="input"
+              timeOnly
+            >
+              <template #inputicon="slotProps">
+                <i class="pi pi-clock" @click="slotProps.clickCallback" />
+              </template>
+            </DatePicker>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>

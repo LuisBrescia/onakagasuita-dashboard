@@ -10,7 +10,8 @@ import type {
   GridStackNode,
   GridStackElement,
 } from 'gridstack';
-import 'gridstack/dist/gridstack.min.css';
+// import 'gridstack/dist/gridstack.min.css';
+import 'gridstack/dist/gridstack.css';
 import {
   MesaPequenaCircular,
   MesaPequenaQuadrada,
@@ -250,95 +251,102 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="flex h-full justify-center gap-4 p-4">
-    <!-- * Elementos -->
-    <div
-      class="h-fit max-w-[300px] flex-1 rounded border border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900"
-    >
-      <h3 class="flex items-center justify-between p-4">Elementos</h3>
+  <div class="page-content">
+    <TheTopbar>
+      <template #actions>
+        <Button
+          label="Voltar"
+          size="small"
+          outlined
+          icon="pi pi-arrow-left"
+          severity="secondary"
+          @click="navigateTo(`/admin/home/estrutura/${route.params.id}`)"
+        />
+        <Button
+          severity="success"
+          size="small"
+          icon="pi pi-save"
+          label="Salvar"
+          :loading="handleSubmitLoading"
+          @click="handleSubmit"
+        />
 
-      <div class="grid grid-cols-1 xl:grid-cols-3">
-        <div class="mesa__container">
-          <!-- TAMANHO 1 por 1 -->
-          <CommonMesaPequenaCircularAlternativa
-            class="mesa__component"
-            @click="adicionarMesa('pequenaCircular')"
-          />
-        </div>
-        <div class="mesa__container">
-          <!-- TAMANHO 1 por 1 -->
-          <CommonMesaPequenaQuadradaAlternativa
-            class="mesa__component"
-            @click="adicionarMesa('pequenaQuadrada')"
-          />
-        </div>
-        <div class="mesa__container">
-          <!-- TAMANHO 2 por 1 -->
-          <CommonMesaGrandeRetangularAlternativa
-            class="mesa__component"
-            @click="adicionarMesa('grandeRetangular')"
-          />
+        <Button
+          severity="warning"
+          size="small"
+          outlined
+          icon="pi pi-refresh"
+          label="Resetar"
+          @click="
+            () => {
+              mesasData = [];
+              count = 0;
+              grid?.removeAll();
+              updateInfo();
+            }
+          "
+        />
+      </template>
+    </TheTopbar>
+
+    <div class="flex h-full justify-center gap-4 p-4">
+      <!-- * Elementos -->
+      <div
+        class="h-fit max-w-[300px] flex-1 rounded border border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900"
+      >
+        <h3 class="flex items-center justify-between p-4">Elementos</h3>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3">
+          <div class="mesa__container">
+            <!-- TAMANHO 1 por 1 -->
+            <CommonMesaPequenaCircularAlternativa
+              class="mesa__component"
+              @click="adicionarMesa('pequenaCircular')"
+            />
+          </div>
+          <div class="mesa__container">
+            <!-- TAMANHO 1 por 1 -->
+            <CommonMesaPequenaQuadradaAlternativa
+              class="mesa__component"
+              @click="adicionarMesa('pequenaQuadrada')"
+            />
+          </div>
+          <div class="mesa__container">
+            <!-- TAMANHO 2 por 1 -->
+            <CommonMesaGrandeRetangularAlternativa
+              class="mesa__component"
+              @click="adicionarMesa('grandeRetangular')"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- * DropZone -->
-    <div
-      class="h-fit max-w-[780px] flex-1 rounded border border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900"
-    >
-      <h3 class="flex items-center justify-between px-4 py-2">
-        Layout
-
-        <div class="flex gap-2">
-          <Button
-            severity="success"
-            size="small"
-            text
-            icon="pi pi-save"
-            label="Salvar"
-            :loading="handleSubmitLoading"
-            @click="handleSubmit"
-          />
-
-          <Button
-            severity="warning"
-            size="small"
-            text
-            icon="pi pi-refresh"
-            label="Resetar"
-            @click="
-              () => {
-                mesasData = [];
-                count = 0;
-                grid?.removeAll();
-                updateInfo();
-              }
-            "
-          />
-        </div>
-      </h3>
-
-      <div class="grid-stack">
-        <div
-          v-for="mesa in mesasData"
-          class="grid-stack-item relative"
-          :gs-x="mesa.x"
-          :gs-y="mesa.y"
-          :gs-w="mesa.w"
-          :gs-h="mesa.h"
-          :gs-id="mesa.id"
-          :id="mesa.id"
-          :key="mesa.id"
-        >
-          <!-- <div class="grid-stack-item-content"> -->
-          <div class="grid h-full place-items-center p-4">
-            <component
-              class="mesa__component"
-              :is="mesa.component"
-              :mesa="mesa"
-              @duplicate="duplicarMesa(mesa)"
-              @delete="removerMesa(mesa)"
-            />
+      <!-- * DropZone -->
+      <div
+        class="h-fit max-w-[780px] flex-1 rounded border border-surface-300 bg-surface-0 dark:border-surface-700 dark:bg-surface-900"
+      >
+        <div class="grid-stack">
+          <div
+            v-for="mesa in mesasData"
+            class="grid-stack-item relative"
+            :gs-x="mesa.x"
+            :gs-y="mesa.y"
+            :gs-w="mesa.w"
+            :gs-h="mesa.h"
+            :gs-id="mesa.id"
+            :id="mesa.id"
+            :key="mesa.id"
+          >
+            <!-- <div class="grid-stack-item-content"> -->
+            <div class="grid h-full place-items-center p-4">
+              <component
+                class="mesa__component"
+                :is="mesa.component"
+                :mesa="mesa"
+                @duplicate="duplicarMesa(mesa)"
+                @delete="removerMesa(mesa)"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -425,5 +433,15 @@ onBeforeMount(async () => {
   /* take entire space */
   position: absolute;
   inset: 0; /* TODO change top: if you have content in nested grid */
+}
+
+.grid-stack-placeholder > .placeholder-content {
+  border-radius: 0.5rem;
+}
+
+.dark {
+  .grid-stack-placeholder > .placeholder-content {
+    background-color: oklch(27.4% 0.006 286.033);
+  }
 }
 </style>

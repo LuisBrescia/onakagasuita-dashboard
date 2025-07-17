@@ -7,7 +7,7 @@ const mainElementKey = ref(0);
     <TheSidebar @unidade-selected="mainElementKey++" />
     <Toast />
     <main
-      class="flex flex-1 bg-surface-100 px-8 dark:bg-surface-800"
+      class="flex flex-1 bg-surface-100 dark:bg-surface-800"
       :key="mainElementKey"
     >
       <slot />

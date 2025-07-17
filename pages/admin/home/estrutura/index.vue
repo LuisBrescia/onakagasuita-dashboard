@@ -35,14 +35,14 @@ onMounted(() => {
           size="small"
           icon="pi pi-plus"
           label="Adicionar"
-          @click="navigateTo('/admin/home/estrutura/novo')"
+          @click="navigateTo('/admin/home/estrutura/adicionar')"
         />
       </template>
     </TheTopbar>
 
-    <main class="relative h-full">
+    <main class="page-inner">
       <div
-        class="container mx-auto grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
+        class="container grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
         v-if="saloesData.length"
       >
         <AdminSalaoCard

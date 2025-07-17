@@ -1,16 +1,16 @@
 <script setup lang="ts"></script>
 
 <template>
-  <!-- <nav
-    class="bg-surface-white flex justify-between border-b border-surface-300 bg-surface-0 px-4 py-2 dark:border-surface-700 dark:bg-surface-900"
-  > -->
   <nav
-    class="bg-surface-white mb-4 flex justify-between border-surface-300 pt-6 dark:border-surface-700"
+    class="bg-surface-white mb-4 flex justify-between border-b border-surface-300 bg-surface-0 px-4 py-3 dark:border-surface-700 dark:bg-surface-900"
   >
+    <!-- <nav
+    class="bg-surface-white mb-8 flex justify-between border-surface-300 pt-6 dark:border-surface-700"
+  > -->
     <TheBreadcrumb />
 
     <div class="flex items-center gap-2">
-      <slot name="actions"></slot>
+      <slot name="actions" />
       <Button
         size="small"
         icon="pi pi-info-circle"

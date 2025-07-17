@@ -258,266 +258,269 @@ const confirmDeleteSalao = (event: any) => {
 </script>
 
 <template>
-  <main class="container mx-auto flex h-full flex-col p-4">
-    <h3
-      class="mb-4 inline-flex cursor-pointer dark:text-surface-400 dark:hover:text-surface-100"
-      @click="router.push('/admin/home/estrutura')"
-    >
-      <IconArrowLeft class="mr-1" :size="20" />
-      <span class="text-sm">Voltar</span>
-    </h3>
-
-    <div
-      class="flex-1 rounded border border-surface-300 bg-surface-0 px-4 py-2 text-sm dark:border-surface-700 dark:bg-surface-900"
-    >
-      <div class="flex items-center justify-between text-2xl">
-        Gerenciamento de salão
-
-        <div class="gap-4">
-          <Button
-            label="Montar layout"
-            icon="pi pi-th-large"
-            size="small"
-            severity="info"
-            text
-            @click="
-              router.push(`/admin/home/estrutura/${route.params.id}/layout`)
-            "
-          />
-          <Button
-            label="Apagar salão"
-            icon="pi pi-trash"
-            size="small"
-            severity="danger"
-            text
-            @click="confirmDeleteSalao"
-          />
-        </div>
-      </div>
-      <p class="mb-8 text-base text-surface-600 dark:text-surface-400">
-        As informações são salvas automaticamente.
-      </p>
-
-      <Divider class="my-4" />
-
-      <!-- Nome -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">Nome</span>
-        <span class="flex-1 text-surface-900 dark:text-surface-0">
-          <input
-            ref="inputNomeRef"
-            v-model="formData.nome"
-            class="rounded border-none bg-transparent p-1 outline-none"
-            :readonly="!isEditing.nome"
-            :style="{ outline: isEditing.nome ? '1px solid #FFC239' : 'none' }"
-          />
-        </span>
-
-        <div v-if="isEditing.nome" class="ml-4">
-          <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
-            size="small"
-            icon="pi pi-check"
-            text
-            @click="handleSaveNome"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelNome"
-          />
-        </div>
+  <div class="page-content">
+    <TheTopbar>
+      <template #actions>
         <Button
-          v-else
-          label="Editar"
+          label="Voltar"
+          @click="navigateTo('/admin/home/estrutura')"
           size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditNome"
+          outlined
+          icon="pi pi-arrow-left"
+          severity="secondary"
         />
-      </div>
 
-      <Divider class="my-4" />
+        <Button
+          label="Montar layout"
+          icon="pi pi-th-large"
+          size="small"
+          severity="info"
+          @click="
+            router.push(`/admin/home/estrutura/${route.params.id}/layout`)
+          "
+        />
 
-      <!-- Dias de funcionamento -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">
-          Dias de funcionamento
-        </span>
-        <span
-          class="flex flex-1 flex-wrap gap-2 text-surface-900 dark:text-surface-0"
-        >
-          <template v-if="!isEditing.diasFuncionamento">
-            <span
-              v-for="dia in formData.diasFuncionamento"
-              :key="dia"
-              class="rounded-full bg-surface-100 p-2 px-4 dark:bg-surface-800"
-            >
-              {{ getDiaSemana(dia) }}
-            </span>
-          </template>
-          <template v-else>
-            <MultiSelect
-              v-model="formData.diasFuncionamento"
-              :options="diasFuncionamentoOptions"
-              optionLabel="label"
-              optionValue="value"
+        <Button
+          label="Apagar salão"
+          icon="pi pi-trash"
+          size="small"
+          severity="danger"
+          outlined
+          @click="confirmDeleteSalao"
+        />
+      </template>
+    </TheTopbar>
+
+    <main class="page-inner container mx-auto flex h-full flex-col">
+      <span class="my-8 text-center">
+        <div class="text-2xl">Gerenciamento de salão</div>
+        <p class="text-base text-surface-600 dark:text-surface-400">
+          As informações são salvas automaticamente.
+        </p>
+      </span>
+
+      <div
+        class="rounded border border-surface-300 bg-surface-0 p-4 text-sm dark:border-surface-700 dark:bg-surface-900"
+      >
+        <!-- Nome -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">Nome</span>
+          <span class="flex-1 text-surface-900 dark:text-surface-0">
+            <input
+              ref="inputNomeRef"
+              v-model="formData.nome"
+              class="rounded border-none bg-transparent p-1 outline-none"
+              :readonly="!isEditing.nome"
+              :style="{
+                outline: isEditing.nome ? '1px solid #FFC239' : 'none',
+              }"
             />
-          </template>
-        </span>
+          </span>
 
-        <div v-if="isEditing.diasFuncionamento" class="ml-4">
+          <div v-if="isEditing.nome" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveNome"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelNome"
+            />
+          </div>
           <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
+            v-else
+            label="Editar"
             size="small"
-            icon="pi pi-check"
+            icon="pi pi-pencil"
             text
-            @click="handleSaveDiasFuncionamento"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelDiasFuncionamento"
-          />
-        </div>
-        <Button
-          v-else
-          label="Editar"
-          size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditDiasFuncionamento"
-        />
-      </div>
-
-      <Divider class="my-4" />
-
-      <!-- Horário de funcionamento início -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">
-          Horário de funcionamento início
-        </span>
-        <span class="flex flex-1 gap-2 text-surface-900 dark:text-surface-0">
-          <template v-if="!isEditing.horarioFuncionamentoInicio">
-            {{ formatarHorario(formData.horarioFuncionamentoInicio) }}
-          </template>
-          <template v-else>
-            <DatePicker
-              v-model="formData.horarioFuncionamentoInicio"
-              showIcon
-              fluid
-              iconDisplay="input"
-              timeOnly
-            >
-              <template #inputicon="slotProps">
-                <i class="pi pi-clock" @click="slotProps.clickCallback" />
-              </template>
-            </DatePicker>
-          </template>
-        </span>
-
-        <div v-if="isEditing.horarioFuncionamentoInicio" class="ml-4">
-          <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
-            size="small"
-            icon="pi pi-check"
-            text
-            @click="handleSaveHorarioInicio"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelHorarioInicio"
+            @click="handleEditNome"
           />
         </div>
-        <Button
-          v-else
-          class="ml-4"
-          label="Editar"
-          size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditHorarioInicio"
-        />
-      </div>
 
-      <Divider class="my-4" />
+        <Divider class="my-4" />
 
-      <!-- Horário de funcionamento final -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">
-          Horário de funcionamento final
-        </span>
-        <span class="flex flex-1 gap-2 text-surface-900 dark:text-surface-0">
-          <template v-if="!isEditing.horarioFuncionamentoFinal">
-            {{ formatarHorario(formData.horarioFuncionamentoFinal) }}
-          </template>
-          <template v-else>
-            <DatePicker
-              v-model="formData.horarioFuncionamentoFinal"
-              showIcon
-              fluid
-              iconDisplay="input"
-              timeOnly
-            >
-              <template #inputicon="slotProps">
-                <i class="pi pi-clock" @click="slotProps.clickCallback" />
-              </template>
-            </DatePicker>
-          </template>
-        </span>
+        <!-- Dias de funcionamento -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">
+            Dias de funcionamento
+          </span>
+          <span
+            class="flex flex-1 flex-wrap gap-2 text-surface-900 dark:text-surface-0"
+          >
+            <template v-if="!isEditing.diasFuncionamento">
+              <span
+                v-for="dia in formData.diasFuncionamento"
+                :key="dia"
+                class="rounded-full bg-surface-100 p-2 px-4 dark:bg-surface-800"
+              >
+                {{ getDiaSemana(dia) }}
+              </span>
+            </template>
+            <template v-else>
+              <MultiSelect
+                v-model="formData.diasFuncionamento"
+                :options="diasFuncionamentoOptions"
+                optionLabel="label"
+                optionValue="value"
+              />
+            </template>
+          </span>
 
-        <div v-if="isEditing.horarioFuncionamentoFinal" class="ml-4">
+          <div v-if="isEditing.diasFuncionamento" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveDiasFuncionamento"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelDiasFuncionamento"
+            />
+          </div>
           <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
+            v-else
+            label="Editar"
             size="small"
-            icon="pi pi-check"
+            icon="pi pi-pencil"
             text
-            @click="handleSaveHorarioFinal"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelHorarioFinal"
+            @click="handleEditDiasFuncionamento"
           />
         </div>
-        <Button
-          v-else
-          class="ml-4"
-          label="Editar"
-          size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditHorarioFinal"
-        />
-      </div>
 
-      <Divider class="my-4" />
-    </div>
-  </main>
-  <ConfirmPopup></ConfirmPopup>
+        <Divider class="my-4" />
+
+        <!-- Horário de funcionamento início -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">
+            Horário de funcionamento início
+          </span>
+          <span class="flex flex-1 gap-2 text-surface-900 dark:text-surface-0">
+            <template v-if="!isEditing.horarioFuncionamentoInicio">
+              {{ formatarHorario(formData.horarioFuncionamentoInicio) }}
+            </template>
+            <template v-else>
+              <DatePicker
+                v-model="formData.horarioFuncionamentoInicio"
+                showIcon
+                fluid
+                iconDisplay="input"
+                timeOnly
+              >
+                <template #inputicon="slotProps">
+                  <i class="pi pi-clock" @click="slotProps.clickCallback" />
+                </template>
+              </DatePicker>
+            </template>
+          </span>
+
+          <div v-if="isEditing.horarioFuncionamentoInicio" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveHorarioInicio"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelHorarioInicio"
+            />
+          </div>
+          <Button
+            v-else
+            class="ml-4"
+            label="Editar"
+            size="small"
+            icon="pi pi-pencil"
+            text
+            @click="handleEditHorarioInicio"
+          />
+        </div>
+
+        <Divider class="my-4" />
+
+        <!-- Horário de funcionamento final -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">
+            Horário de funcionamento final
+          </span>
+          <span class="flex flex-1 gap-2 text-surface-900 dark:text-surface-0">
+            <template v-if="!isEditing.horarioFuncionamentoFinal">
+              {{ formatarHorario(formData.horarioFuncionamentoFinal) }}
+            </template>
+            <template v-else>
+              <DatePicker
+                v-model="formData.horarioFuncionamentoFinal"
+                showIcon
+                fluid
+                iconDisplay="input"
+                timeOnly
+              >
+                <template #inputicon="slotProps">
+                  <i class="pi pi-clock" @click="slotProps.clickCallback" />
+                </template>
+              </DatePicker>
+            </template>
+          </span>
+
+          <div v-if="isEditing.horarioFuncionamentoFinal" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveHorarioFinal"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelHorarioFinal"
+            />
+          </div>
+          <Button
+            v-else
+            class="ml-4"
+            label="Editar"
+            size="small"
+            icon="pi pi-pencil"
+            text
+            @click="handleEditHorarioFinal"
+          />
+        </div>
+      </div>
+    </main>
+  </div>
+  <ConfirmPopup />
 </template>

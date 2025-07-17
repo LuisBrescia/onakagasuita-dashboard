@@ -131,36 +131,39 @@ gerarClientes();
 </script>
 
 <template>
-  <main class="p-4">
-    <div class="mb-8 mt-4 text-center">
-      <h1 class="text-2xl font-bold">Lista de Clientes</h1>
-      <p class="text-surface-600 dark:text-surface-400">
-        Informações dos clientes cadastrados
-      </p>
-    </div>
+  <div class="page-content">
+    <TheTopbar />
+    <main class="p-4">
+      <div class="mb-8 mt-4 text-center">
+        <h1 class="text-2xl font-bold">Lista de Clientes</h1>
+        <p class="text-surface-600 dark:text-surface-400">
+          Informações dos clientes cadastrados
+        </p>
+      </div>
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <template v-for="cliente in clientesData" :key="cliente.id">
-        <Card
-          class="rounded-md border border-surface-300 p-4 dark:border-surface-700"
-        >
-          <template #title>
-            <h2 class="truncate text-sm font-bold">{{ cliente.nome }}</h2>
-          </template>
-          <template #subtitle>
-            <p class="text-xs text-surface-600 dark:text-surface-400">
-              {{ cliente.email }}
-            </p>
-          </template>
-          <template #content>
-            <p class="text-xs text-surface-600 dark:text-surface-400">
-              {{ mascararTelefone(cliente.telefone) }}
-            </p>
-          </template>
-        </Card>
-      </template>
-    </div>
-  </main>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <template v-for="cliente in clientesData" :key="cliente.id">
+          <Card
+            class="rounded-md border border-surface-300 p-4 dark:border-surface-700"
+          >
+            <template #title>
+              <h2 class="truncate text-sm font-bold">{{ cliente.nome }}</h2>
+            </template>
+            <template #subtitle>
+              <p class="text-xs text-surface-600 dark:text-surface-400">
+                {{ cliente.email }}
+              </p>
+            </template>
+            <template #content>
+              <p class="text-xs text-surface-600 dark:text-surface-400">
+                {{ mascararTelefone(cliente.telefone) }}
+              </p>
+            </template>
+          </Card>
+        </template>
+      </div>
+    </main>
+  </div>
 </template>
 
 <style scoped>

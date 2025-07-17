@@ -59,6 +59,10 @@ const Brescia = definePreset(Aura, {
         },
       },
       dark: {
+        card: {
+          background: '{zinc.500}',
+          background: '{zinc.500}',
+        },
         content: {
           background: '{zinc.900}',
         },
@@ -98,8 +102,8 @@ const Brescia = definePreset(Aura, {
       },
     },
     button: {
-      borderRadius: '{border.radius.xs}',
-      // borderRadius: '{border.radius.md}',
+      // borderRadius: '{border.radius.xs}',
+      borderRadius: '{border.radius.lg}',
       sm: {
         paddingX: '.75rem',
         paddingY: '.5rem',
@@ -137,10 +141,22 @@ const Brescia = definePreset(Aura, {
         },
       },
     },
-    dialog: {
-      root: {
-        borderRadius: '{border.radius.sm}',
+    card: {
+      borderRadius: '{border.radius.xs}',
+      body: {
+        padding: '1rem',
       },
+      colorScheme: {
+        light: {
+          background: '{surface.0}',
+        },
+        dark: {
+          background: '{surface.900}',
+        },
+      },
+    },
+    dialog: {
+      borderRadius: '{border.radius.sm}',
       header: {
         padding: '.5rem 1rem',
       },
@@ -152,81 +168,45 @@ const Brescia = definePreset(Aura, {
       },
       colorScheme: {
         light: {
-          root: {
-            background: '{surface.0}',
-            borderColor: '{surface.300}',
-          },
+          background: '{surface.0}',
+          borderColor: '{surface.300}',
         },
         dark: {
-          root: {
-            background: '{surface.900}',
-            borderColor: '{surface.700}',
-          },
+          background: '{surface.900}',
+          borderColor: '{surface.700}',
         },
       },
     },
     drawer: {
       colorScheme: {
         light: {
-          root: {
-            borderColor: '{surface.0}',
-          },
+          borderColor: '{surface.0}',
         },
         dark: {
-          root: {
-            borderColor: '{surface.900}',
-          },
+          borderColor: '{surface.900}',
         },
       },
     },
     checkbox: {
-      root: {
-        borderRadius: '2px',
-      },
-    },
-    card: {
-      borderRadius: '{border.radius.xs}',
-      body: {
-        padding: '1rem',
-      },
-      colorScheme: {
-        light: {
-          root: {
-            background: '{surface.0}',
-          },
-        },
-        dark: {
-          root: {
-            background: '{surface.950}',
-          },
-        },
-      },
+      borderRadius: '2px',
     },
     divider: {
       colorScheme: {
         light: {
-          root: {
-            borderColor: '{surface.300}',
-          },
+          borderColor: '{surface.300}',
         },
         dark: {
-          root: {
-            borderColor: '{surface.700}',
-          },
+          borderColor: '{surface.700}',
         },
       },
     },
     paginator: {
       colorScheme: {
         light: {
-          root: {
-            background: '{surface.0}',
-          },
+          background: '{surface.0}',
         },
         dark: {
-          root: {
-            background: '{surface.950}',
-          },
+          background: '{surface.950}',
         },
       },
     },
