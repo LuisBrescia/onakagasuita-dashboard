@@ -3,7 +3,7 @@ import type { Salao } from '@/types/Salao';
 import { DiasSemana } from '@/enums/DiasSemana';
 import { formatarHorario } from '@/utils/formatarHorario';
 
-defineProps({
+const props = defineProps({
   salao: {
     type: Object as PropType<Salao>,
     required: true,
@@ -17,6 +17,12 @@ const formatarDias = (dias: Set<DiasSemana>) => {
     })
     .join(', ');
 };
+
+const diasSemanaLetras = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+const diasAtivos = computed(() => {
+  const raw = props.salao.dias_funcionamento;
+  return raw instanceof Set ? raw : new Set(raw);
+});
 </script>
 
 <template>
@@ -43,9 +49,33 @@ const formatarDias = (dias: Set<DiasSemana>) => {
 
     <div class="mb-2">
       <h4 class="text-xs text-surface-600 dark:text-surface-400">
-        Dias da semana
+        Dias de funcionamento
       </h4>
-      <p class="text-sm">{{ formatarDias(salao.dias_funcionamento) }}</p>
+
+      <div class="week-wrapper mt-2 flex gap-2">
+        <span
+          v-for="(letra, index) in diasSemanaLetras"
+          :key="index"
+          class="week-item"
+          :class="{ active: diasAtivos.has(index) }"
+        >
+          <span>{{ letra }}</span>
+        </span>
+      </div>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.week-item {
+  @apply relative inline-block aspect-square w-6 rounded-full border border-surface-300 text-surface-700 dark:border-surface-700 dark:text-surface-200;
+}
+
+.week-item span {
+  @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-xs;
+}
+
+.week-item.active {
+  @apply border-primary-500 bg-primary-500 text-surface-100 dark:border-primary-400 dark:bg-primary-400 dark:text-surface-900;
+}
+</style>

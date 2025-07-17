@@ -133,7 +133,7 @@ const getSalao = async (id: number) => {
       </span>
 
       <div
-        class="rounded border border-surface-300 bg-surface-0 p-4 text-sm dark:border-surface-700 dark:bg-surface-900"
+        class="rounded border border-surface-300 bg-surface-0 px-4 py-8 text-sm dark:border-surface-700 dark:bg-surface-900"
       >
         <div class="mx-auto grid w-full grid-cols-1 gap-8 md:grid-cols-2">
           <!--* Nome -->
@@ -148,13 +148,8 @@ const getSalao = async (id: number) => {
 
           <!--* Dias de funcionamento -->
           <div class="flex flex-col gap-2">
-            <label for="horarioInicio">Dias semana</label>
-            <MultiSelect
-              v-model="formData.diasFuncionamento"
-              :options="diasFuncionamentoOptions"
-              optionLabel="label"
-              optionValue="value"
-            />
+            <label for="horarioInicio">Dias em funcionamento</label>
+            <AppDaySelect v-model="formData.diasFuncionamento" />
           </div>
 
           <!--* Horário de funcionamento inicial -->

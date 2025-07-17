@@ -205,6 +205,11 @@ const salaoData = ref<Partial<Salao>>({
 
 const getLayout = async () => {
   const res = (await SalaoService.getLayout(Number(route.params.id))) as any;
+
+  if (!res || res.length === 0) {
+    return;
+  }
+
   res.forEach((mesa: any) => {
     carregarMesa(mesa);
   });

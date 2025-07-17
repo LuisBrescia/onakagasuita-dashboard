@@ -367,12 +367,7 @@ const confirmDeleteSalao = (event: any) => {
               </span>
             </template>
             <template v-else>
-              <MultiSelect
-                v-model="formData.diasFuncionamento"
-                :options="diasFuncionamentoOptions"
-                optionLabel="label"
-                optionValue="value"
-              />
+              <AppDaySelect v-model="formData.diasFuncionamento" />
             </template>
           </span>
 
