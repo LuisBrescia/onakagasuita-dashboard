@@ -15,7 +15,10 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <main class="p-4">
-    <h1 class="text-2xl">Vouchers</h1>
-  </main>
+  <div class="page-content">
+    <TheTopbar />
+    <main class="page-inner">
+      <h1 class="text-2xl">Vouchers</h1>
+    </main>
+  </div>
 </template>
