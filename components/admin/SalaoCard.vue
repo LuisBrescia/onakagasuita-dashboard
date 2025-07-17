@@ -27,40 +27,48 @@ const diasAtivos = computed(() => {
 
 <template>
   <div
-    class="group relative min-w-72 cursor-pointer rounded border border-surface-300 bg-surface-0 p-4 transition-shadow hover:shadow-lg dark:border-surface-700 dark:bg-surface-900"
+    class="group relative min-w-72 cursor-pointer overflow-hidden rounded-md border border-surface-300 bg-surface-0 transition-shadow hover:shadow-lg dark:border-surface-700 dark:bg-surface-900"
   >
-    <h3 class="mb-2 text-base font-semibold">{{ salao.nome }}</h3>
-
     <div
-      class="rounded-custom absolute right-2 top-2 bg-primary-500 p-2 text-surface-100 opacity-0 transition-opacity group-hover:opacity-100"
+      class="grid h-48 w-full place-items-center border-b border-surface-300 bg-surface-100 opacity-50 dark:border-surface-700 dark:bg-surface-800"
     >
-      <IconPencil :size="18" />
+      Sem layout
     </div>
 
-    <div class="mb-2">
-      <h4 class="text-xs text-surface-600 dark:text-surface-400">
-        Horário de funcionamento
-      </h4>
-      <p class="text-sm">
-        {{ formatarHorario(salao.horario_funcionamento_inicio) }} às
-        {{ formatarHorario(salao.horario_funcionamento_fim) }}
-      </p>
-    </div>
+    <div class="p-4">
+      <h3 class="mb-2 text-base font-semibold">{{ salao.nome }}</h3>
 
-    <div class="mb-2">
-      <h4 class="text-xs text-surface-600 dark:text-surface-400">
-        Dias de funcionamento
-      </h4>
+      <div
+        class="rounded-custom absolute right-2 top-2 bg-primary-500 p-2 text-surface-100 opacity-0 transition-opacity group-hover:opacity-100"
+      >
+        <IconPencil :size="18" />
+      </div>
 
-      <div class="week-wrapper mt-2 flex gap-2">
-        <span
-          v-for="(letra, index) in diasSemanaLetras"
-          :key="index"
-          class="week-item"
-          :class="{ active: diasAtivos.has(index) }"
-        >
-          <span>{{ letra }}</span>
-        </span>
+      <div class="mb-2">
+        <h4 class="text-xs text-surface-600 dark:text-surface-400">
+          Horário de funcionamento
+        </h4>
+        <p class="text-sm">
+          {{ formatarHorario(salao.horario_funcionamento_inicio) }} às
+          {{ formatarHorario(salao.horario_funcionamento_fim) }}
+        </p>
+      </div>
+
+      <div class="mb-2">
+        <h4 class="text-xs text-surface-600 dark:text-surface-400">
+          Dias de funcionamento
+        </h4>
+
+        <div class="week-wrapper mt-2 flex gap-2">
+          <span
+            v-for="(letra, index) in diasSemanaLetras"
+            :key="index"
+            class="week-item"
+            :class="{ active: diasAtivos.has(index) }"
+          >
+            <span>{{ letra }}</span>
+          </span>
+        </div>
       </div>
     </div>
   </div>
