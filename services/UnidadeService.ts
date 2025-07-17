@@ -1,10 +1,16 @@
-import type { Pagination } from "@/types/common/Pagination";
-import type { Unidade, UnidadeRequest, UnidadeGetAllQuerys } from "@/types/Unidade";
+import type { Pagination } from '@/types/common/Pagination';
+import type {
+  Unidade,
+  UnidadeRequest,
+  UnidadeGetAllQuerys,
+} from '@/types/Unidade';
 
 const UnidadeService = {
   // data: Unidade[]; // This line is not necessary
   // meta: Pagination; // This line is not necessary
-  getAll: async (querys?: UnidadeGetAllQuerys): Promise<{ data: Unidade[], meta: Pagination }> => {
+  getAll: async (
+    querys?: UnidadeGetAllQuerys,
+  ): Promise<{ data: Unidade[]; meta: Pagination }> => {
     const queryString = new URLSearchParams();
 
     if (querys?.page) {
@@ -23,7 +29,7 @@ const UnidadeService = {
       method: 'GET',
     });
 
-    return res as { data: Unidade[], meta: Pagination };
+    return res as { data: Unidade[]; meta: Pagination };
   },
 
   getById: async (id: number): Promise<Unidade> => {
@@ -58,7 +64,9 @@ const UnidadeService = {
     });
   },
 
-  getAllClient: async (querys?: UnidadeGetAllQuerys): Promise<{ data: Unidade[], meta: Pagination }> => {
+  getAllClient: async (
+    querys?: UnidadeGetAllQuerys,
+  ): Promise<{ data: Unidade[]; meta: Pagination }> => {
     const queryString = new URLSearchParams();
 
     if (querys?.page) {
@@ -73,8 +81,8 @@ const UnidadeService = {
       method: 'GET',
     });
 
-    return res as { data: Unidade[], meta: Pagination };
-  }
+    return res as { data: Unidade[]; meta: Pagination };
+  },
 };
 
 export default UnidadeService;

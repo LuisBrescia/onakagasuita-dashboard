@@ -35,7 +35,6 @@ const handleSubmit = async () => {
 
   try {
     const res = await UnidadeService.create(formData.value);
-    console.log(res);
     unidadeStore.setUnidade(res);
     navigateTo('/admin/home/');
   } catch (error) {
@@ -48,7 +47,6 @@ const handleSubmit = async () => {
 const getFranquias = async () => {
   try {
     franquiasData.value = await FranquiaService.getAll();
-    console.log(franquiasData.value);
   } catch (error) {
     console.error(error);
   }
@@ -63,6 +61,20 @@ const formRulesNomeFantasia = computed(
     formData.value.nome_fantasia.length <= 3 ||
     formData.value.nome_fantasia.length > 21,
 );
+const formRulesStep3 = computed(() => {
+  return (
+    formData.value.telefone.length < 14 || // Verifica se o telefone está completo (formato: (99) 99999-9999)
+    !formData.value.email.includes('@') // Verifica se o email contém '@'
+  );
+});
+
+const formRulesStep4 = computed(() => {
+  return (
+    formData.value.cep.length !== 9 || // Verifica se o CEP está completo (99999-999)
+    formData.value.cidade.length < 3 || // Verifica se a cidade tem pelo menos 3 caracteres
+    formData.value.logradouro.length < 3 // Verifica se o logradouro tem pelo menos 3 caracteres
+  );
+});
 
 const handleCep = async (cep: string) => {
   if (!cep || cep.length !== 9) return; // Verifica se o CEP está completo (99999-999)
@@ -96,8 +108,15 @@ onMounted(() => {
 
 <template>
   <div class="h-screen w-screen dark:bg-surface-900">
+    <div>
+      <IconX
+        class="absolute right-4 top-4 cursor-pointer text-surface-500 hover:text-surface-700 dark:text-surface-500 hover:dark:text-surface-300"
+        @click="navigateTo('/admin/home/')"
+      />
+    </div>
+
     <div class="container mx-auto h-full pt-8">
-      <Stepper value="1">
+      <Stepper value="1" linear>
         <StepList>
           <Step value="1">Nome</Step>
           <Step value="2">Franquia</Step>
@@ -226,6 +245,7 @@ onMounted(() => {
                 label="Continuar"
                 size="small"
                 class="w-28"
+                :disabled="formRulesStep3"
                 @click="activateCallback('4')"
               />
             </div>
@@ -279,6 +299,7 @@ onMounted(() => {
                 label="Concluir"
                 size="small"
                 class="w-28"
+                :disabled="formRulesStep4"
                 :loading="handleSubmitLoading"
                 @click="handleSubmit"
               />
