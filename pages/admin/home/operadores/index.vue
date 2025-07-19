@@ -15,21 +15,30 @@ breadcrumbStore.setBreadcrumb([
   { name: 'Operadores', to: '/admin/home/operadores' },
 ]);
 
-const operadoresData = ref<any[]>([]);
-const getOperadores = async () => {
-  operadoresData.value = await OperadorService.getAll();
-};
-
-onMounted(() => {
-  getOperadores();
-});
-
 const modalVisible = ref(false);
 const formData = ref({
   login: '',
   label: '',
   senha: '',
   icon: '',
+});
+
+const operadoresLoading = ref(false);
+const operadoresData = ref<any[]>([]);
+const getOperadores = async () => {
+  operadoresLoading.value = true;
+
+  try {
+    operadoresData.value = await OperadorService.getAll();
+  } catch (error) {
+    console.error('Erro ao buscar operadores:', error);
+  } finally {
+    operadoresLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  getOperadores();
 });
 </script>
 
@@ -46,9 +55,13 @@ const formData = ref({
       </template>
     </TheTopbar>
     <main class="page-inner">
+      <div v-if="operadoresLoading" class="grid h-full place-items-center">
+        <ProgressSpinner strokeWidth="4" />
+      </div>
+
       <div
         class="container grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
-        v-if="operadoresData.length"
+        v-else-if="operadoresData.length"
       >
         <AdminOperadorCard
           v-for="operador in operadoresData"

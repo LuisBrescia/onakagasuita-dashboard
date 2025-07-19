@@ -17,9 +17,17 @@ breadcrumbStore.setBreadcrumb([
   { name: 'Estrutura', to: '/admin/home/estrutura' },
 ]);
 
+const saloesLoading = ref(false);
 const saloesData = ref<Salao[]>([]);
 const getSaloes = async () => {
-  saloesData.value = await SalaoService.getAll();
+  saloesLoading.value = true;
+  try {
+    saloesData.value = await SalaoService.getAll();
+  } catch (error) {
+    console.error('Erro ao buscar salões:', error);
+  } finally {
+    saloesLoading.value = false;
+  }
 };
 
 onMounted(() => {
@@ -41,9 +49,13 @@ onMounted(() => {
     </TheTopbar>
 
     <main class="page-inner">
+      <div v-if="saloesLoading" class="grid h-full place-items-center">
+        <ProgressSpinner strokeWidth="4" />
+      </div>
+
       <div
         class="container grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
-        v-if="saloesData.length"
+        v-else-if="saloesData.length"
       >
         <AdminSalaoCard
           v-for="salao in saloesData"
