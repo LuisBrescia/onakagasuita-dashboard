@@ -219,6 +219,7 @@ getLayout();
 
 const getSalao = async () => {
   salaoData.value = await SalaoService.get(Number(route.params.id));
+  console.log('salaoData', salaoData.value);
 };
 
 const handleSubmitLoading = ref(false);
@@ -446,7 +447,8 @@ onBeforeMount(async () => {
 
 .dark {
   .grid-stack-placeholder > .placeholder-content {
-    background-color: oklch(27.4% 0.006 286.033);
+    background-color: oklch(44.2% 0.017 285.786);
+    opacity: 0.25;
   }
 }
 </style>

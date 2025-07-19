@@ -29,21 +29,25 @@ const itemsSidebar = [
       icon: Workflow,
       label: 'Integrações',
       to: '/admin/home/integracoes',
+      disabled: true,
     },
     {
       icon: TagIcon,
       label: 'Voucher',
       to: '/admin/home/vouchers',
+      disabled: true,
     },
     {
       icon: Wallet,
       label: 'Financeiro',
       to: '/admin/home/financeiro',
+      disabled: true,
     },
     {
       icon: HeartPulse,
       label: 'Planos e benefícios',
       to: '/admin/home/planos',
+      disabled: true,
     },
   ],
   // * Específicos de unidade
@@ -57,11 +61,13 @@ const itemsSidebar = [
       icon: Clock,
       label: 'Horários',
       to: '/admin/home/horarios',
+      disabled: true,
     },
     {
       icon: BookOpen,
       label: 'Regras de negócio',
       to: '/admin/home/regras',
+      disabled: true,
     },
     {
       icon: Pickaxe,
@@ -135,15 +141,23 @@ const handleLogout = async () => {
     </div>
 
     <div class="c-sidebar__body">
-      <h4 class="c-sidebar__body__header mb-2 px-4">Gerais</h4>
+      <h4 class="c-sidebar__body__header mb-2 px-4">Admin</h4>
 
       <template v-for="item in itemsSidebar[0]" :key="item">
-        <NuxtLink :to="item.to">
+        <NuxtLink v-if="!item.disabled" :to="item.to">
           <div class="c-sidebar__item px-4 py-2">
             <component :is="item.icon" :size="16" />
             <span class="ml-2 text-nowrap">{{ item.label }}</span>
           </div>
         </NuxtLink>
+        <div
+          v-else
+          class="c-sidebar__item flex justify-between px-4 py-2"
+          style="cursor: not-allowed !important"
+        >
+          <component :is="item.icon" :size="16" />
+          <span class="ml-2 text-nowrap">{{ item.label }}</span>
+        </div>
       </template>
 
       <div class="my-2 h-[1px] bg-surface-300 dark:bg-surface-700" />
@@ -156,7 +170,7 @@ const handleLogout = async () => {
         :class="!unidadeStore.unidade ? 'pointer-events-none opacity-50' : ''"
       >
         <template v-for="item in itemsSidebar[1]" :key="item">
-          <NuxtLink :to="item.to">
+          <NuxtLink v-if="!item.disabled" :to="item.to">
             <div
               class="c-sidebar__item px-4 py-2"
               :class="{ 'is-active': route.path.startsWith(item.to) }"
@@ -165,6 +179,14 @@ const handleLogout = async () => {
               <span class="ml-2 text-nowrap">{{ item.label }}</span>
             </div>
           </NuxtLink>
+          <div
+            v-else
+            class="c-sidebar__item flex justify-between px-4 py-2"
+            style="cursor: not-allowed !important"
+          >
+            <component :is="item.icon" :size="16" />
+            <span class="ml-2 text-nowrap">{{ item.label }}</span>
+          </div>
         </template>
       </span>
     </div>
@@ -298,7 +320,7 @@ const handleLogout = async () => {
     &__branding {
       @apply flex items-center gap-1 font-semibold;
       position: relative;
-      top: 2px;
+      top: 8px;
       text-wrap: nowrap;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
@@ -306,7 +328,7 @@ const handleLogout = async () => {
 
     &__panel-switch {
       position: absolute;
-      top: 8px;
+      top: 14px;
       right: 8px;
     }
   }

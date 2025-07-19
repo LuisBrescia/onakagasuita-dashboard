@@ -4,7 +4,7 @@ import { useUsuarioStore } from '@/stores/usuarioStore';
 
 const route = useRoute();
 const formData = ref({
-  email: '',
+  login: '',
   senha: '',
   remember_me: false,
 });
@@ -30,9 +30,6 @@ const handleSubmit = async () => {
       navigateTo('/home');
     }
   } catch (err) {
-    if (err._data.errors.login) {
-      err._data.errors.email = err._data.errors.login;
-    }
     if (err.status == 500) {
       generalErrorMessage.value =
         'Sistema indisponível no momento. Tente novamente mais tarde.';
@@ -89,12 +86,12 @@ const handleSubmit = async () => {
           <label for="email">Usuário</label>
           <InputText
             id="email"
-            v-model="formData.email"
+            v-model="formData.login"
             type="text"
-            :class="[validationErrors?.email ? 'p-invalid' : '']"
+            :class="[validationErrors?.login ? 'p-invalid' : '']"
           />
           <small id="email-help" class="text-red-600 dark:text-red-300">
-            {{ validationErrors.email ? validationErrors.email[0] : '' }}
+            {{ validationErrors.login ? validationErrors.login[0] : '' }}
           </small>
         </div>
 

@@ -32,7 +32,7 @@ const diasAtivos = computed(() => {
     <div
       class="grid h-48 w-full place-items-center border-b border-surface-300 bg-surface-100 opacity-50 dark:border-surface-700 dark:bg-surface-800"
     >
-      Sem layout
+      Preview indisponível
     </div>
 
     <div class="p-4">

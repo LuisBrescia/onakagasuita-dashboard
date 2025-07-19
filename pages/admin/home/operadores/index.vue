@@ -45,9 +45,9 @@ const formData = ref({
         />
       </template>
     </TheTopbar>
-    <main class="relative h-full p-4">
+    <main class="page-inner">
       <div
-        class="container mx-auto grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
+        class="container grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3"
         v-if="operadoresData.length"
       >
         <AdminOperadorCard

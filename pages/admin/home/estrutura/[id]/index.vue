@@ -285,7 +285,6 @@ const confirmDeleteSalao = (event: any) => {
           icon="pi pi-trash"
           size="small"
           severity="danger"
-          outlined
           @click="confirmDeleteSalao"
         />
       </template>

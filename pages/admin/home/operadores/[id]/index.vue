@@ -187,211 +187,223 @@ const confirmDeleteSalao = (event: any) => {
 </script>
 
 <template>
-  <main class="container mx-auto flex h-full flex-col p-4">
-    <h3
-      class="mb-4 inline-flex cursor-pointer dark:text-surface-400 dark:hover:text-surface-100"
-      @click="router.push('/admin/home/operadores')"
-    >
-      <IconArrowLeft class="mr-1" :size="20" />
-      <span class="text-sm">Voltar</span>
-    </h3>
-
-    <div
-      class="flex-1 rounded border border-surface-300 bg-surface-0 px-4 py-2 text-sm dark:border-surface-700 dark:bg-surface-900"
-    >
-      <div class="flex items-center justify-between text-2xl">
-        Gerenciamento de operador
-
-        <div class="gap-4">
-          <Button
-            label="Apagar operador"
-            icon="pi pi-trash"
-            size="small"
-            severity="danger"
-            text
-            @click="confirmDeleteSalao"
-          />
-        </div>
-      </div>
-      <p class="mb-8 text-base text-surface-600 dark:text-surface-400">
-        As informações são salvas automaticamente.
-      </p>
-
-      <Divider class="my-4" />
-
-      <!-- Login -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">Login</span>
-        <span class="flex-1 text-surface-900 dark:text-surface-0">
-          <input
-            ref="inputNomeRef"
-            v-model="formData.login"
-            class="rounded border-none bg-transparent p-1 outline-none"
-            :readonly="!isEditing.login"
-            :style="{ outline: isEditing.login ? '1px solid #FFC239' : 'none' }"
-          />
-        </span>
-
-        <div v-if="isEditing.login" class="ml-4">
-          <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
-            size="small"
-            icon="pi pi-check"
-            text
-            @click="handleSaveNome"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelNome"
-          />
-        </div>
+  <div class="page-content">
+    <TheTopbar>
+      <template #actions>
         <Button
-          v-else
-          label="Editar"
+          label="Voltar"
+          @click="navigateTo('/admin/home/operadores')"
           size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditNome"
+          outlined
+          icon="pi pi-arrow-left"
+          severity="secondary"
         />
-      </div>
 
-      <Divider class="my-4" />
-
-      <!-- Label -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">
-          Descrição
-        </span>
-        <span class="flex-1 text-surface-900 dark:text-surface-0">
-          <input
-            ref="inputLabelRef"
-            v-model="formData.label"
-            class="rounded border-none bg-transparent p-1 outline-none"
-            :readonly="!isEditing.label"
-            :style="{ outline: isEditing.label ? '1px solid #FFC239' : 'none' }"
-          />
-        </span>
-
-        <div v-if="isEditing.label" class="ml-4">
-          <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
-            size="small"
-            icon="pi pi-check"
-            text
-            @click="handleSaveLabel"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelLabel"
-          />
-        </div>
         <Button
-          v-else
-          label="Editar"
+          severity="info"
           size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditLabel"
+          icon="pi pi-sync"
+          label="Entrar como operador"
         />
-      </div>
 
-      <Divider class="my-4" />
+        <Button
+          severity="danger"
+          size="small"
+          icon="pi pi-trash"
+          label="Apagar operador"
+        />
+      </template>
+    </TheTopbar>
 
-      <!-- Ícone -->
-      <div class="flex items-center px-2">
-        <span class="w-64 text-surface-600 dark:text-surface-400">Ícone</span>
-        <span class="flex-1 text-surface-900 dark:text-surface-0">
-          <div class="flex gap-3">
-            <div
-              v-show="formData.icon === 'desktop' || isEditing.icon"
-              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+    <main class="container mx-auto flex h-full flex-col p-4">
+      <span class="my-8 text-center">
+        <div class="text-2xl">Gerenciamento de operador</div>
+        <p class="text-base text-surface-600 dark:text-surface-400">
+          As informações são salvas automaticamente.
+        </p>
+      </span>
+
+      <div
+        class="rounded border border-surface-300 bg-surface-0 px-4 py-4 text-sm dark:border-surface-700 dark:bg-surface-900"
+      >
+        <!-- Login -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">Login</span>
+          <span class="flex-1 text-surface-900 dark:text-surface-0">
+            <input
+              ref="inputNomeRef"
+              v-model="formData.login"
+              class="rounded border-none bg-transparent p-1 outline-none"
+              :readonly="!isEditing.login"
               :style="{
-                outline: formData.icon === 'desktop' ? '2px solid #FFC239' : '',
+                outline: isEditing.login ? '1px solid #FFC239' : 'none',
               }"
-              @click="formData.icon = 'desktop'"
-            >
-              <IconMonitor />
-            </div>
-            <div
-              v-show="formData.icon === 'user' || isEditing.icon"
-              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
-              :style="{
-                outline: formData.icon === 'user' ? '2px solid #FFC239' : '',
-              }"
-              @click="formData.icon = 'user'"
-            >
-              <IconUserRound />
-            </div>
-            <div
-              v-show="formData.icon === 'smartphone' || isEditing.icon"
-              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
-              :style="{
-                outline:
-                  formData.icon === 'smartphone' ? '2px solid #FFC239' : '',
-              }"
-              @click="formData.icon = 'smartphone'"
-            >
-              <IconSmartphone />
-            </div>
-            <div
-              v-show="formData.icon === 'laptop' || isEditing.icon"
-              class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
-              :style="{
-                outline: formData.icon === 'laptop' ? '2px solid #FFC239' : '',
-              }"
-              @click="formData.icon = 'laptop'"
-            >
-              <IconLaptop />
-            </div>
+            />
+          </span>
+
+          <div v-if="isEditing.login" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveNome"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelNome"
+            />
           </div>
-        </span>
-
-        <div v-if="isEditing.icon" class="ml-4">
           <Button
-            class="mr-2"
-            severity="success"
-            label="Salvar"
+            v-else
+            label="Editar"
             size="small"
-            icon="pi pi-check"
+            icon="pi pi-pencil"
             text
-            @click="handleSaveIcon"
-          />
-          <Button
-            class="mr-2"
-            severity="danger"
-            label="Cancelar"
-            size="small"
-            icon="pi pi-times"
-            text
-            @click="handleCancelIcon"
+            @click="handleEditNome"
           />
         </div>
-        <Button
-          v-else
-          label="Editar"
-          size="small"
-          icon="pi pi-pencil"
-          text
-          @click="handleEditIcon"
-        />
-      </div>
 
-      <Divider class="my-4" />
-    </div>
-  </main>
+        <Divider class="my-4" />
+
+        <!-- Label -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">
+            Descrição
+          </span>
+          <span class="flex-1 text-surface-900 dark:text-surface-0">
+            <input
+              ref="inputLabelRef"
+              v-model="formData.label"
+              class="rounded border-none bg-transparent p-1 outline-none"
+              :readonly="!isEditing.label"
+              :style="{
+                outline: isEditing.label ? '1px solid #FFC239' : 'none',
+              }"
+            />
+          </span>
+
+          <div v-if="isEditing.label" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveLabel"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelLabel"
+            />
+          </div>
+          <Button
+            v-else
+            label="Editar"
+            size="small"
+            icon="pi pi-pencil"
+            text
+            @click="handleEditLabel"
+          />
+        </div>
+
+        <Divider class="my-4" />
+
+        <!-- Ícone -->
+        <div class="flex items-center px-2">
+          <span class="w-64 text-surface-600 dark:text-surface-400">Ícone</span>
+          <span class="flex-1 text-surface-900 dark:text-surface-0">
+            <div class="flex gap-3">
+              <div
+                v-show="formData.icon === 'desktop' || isEditing.icon"
+                class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+                :style="{
+                  outline:
+                    formData.icon === 'desktop' ? '2px solid #FFC239' : '',
+                }"
+                @click="formData.icon = 'desktop'"
+              >
+                <IconMonitor />
+              </div>
+              <div
+                v-show="formData.icon === 'user' || isEditing.icon"
+                class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+                :style="{
+                  outline: formData.icon === 'user' ? '2px solid #FFC239' : '',
+                }"
+                @click="formData.icon = 'user'"
+              >
+                <IconUserRound />
+              </div>
+              <div
+                v-show="formData.icon === 'smartphone' || isEditing.icon"
+                class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+                :style="{
+                  outline:
+                    formData.icon === 'smartphone' ? '2px solid #FFC239' : '',
+                }"
+                @click="formData.icon = 'smartphone'"
+              >
+                <IconSmartphone />
+              </div>
+              <div
+                v-show="formData.icon === 'laptop' || isEditing.icon"
+                class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
+                :style="{
+                  outline:
+                    formData.icon === 'laptop' ? '2px solid #FFC239' : '',
+                }"
+                @click="formData.icon = 'laptop'"
+              >
+                <IconLaptop />
+              </div>
+            </div>
+          </span>
+
+          <div v-if="isEditing.icon" class="ml-4">
+            <Button
+              class="mr-2"
+              severity="success"
+              label="Salvar"
+              size="small"
+              icon="pi pi-check"
+              text
+              @click="handleSaveIcon"
+            />
+            <Button
+              class="mr-2"
+              severity="danger"
+              label="Cancelar"
+              size="small"
+              icon="pi pi-times"
+              text
+              @click="handleCancelIcon"
+            />
+          </div>
+          <Button
+            v-else
+            label="Editar"
+            size="small"
+            icon="pi pi-pencil"
+            text
+            @click="handleEditIcon"
+          />
+        </div>
+      </div>
+    </main>
+  </div>
   <ConfirmPopup></ConfirmPopup>
 </template>
