@@ -53,7 +53,7 @@ const createOperador = async (operadorRequest: any) => {
   }
 };
 
-const updateSalao = async (id: number, operadorRequest: any) => {
+const updateOperador = async (id: number, operadorRequest: any) => {
   try {
     await OperadorService.update(id, operadorRequest);
     toast.add({

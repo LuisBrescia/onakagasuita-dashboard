@@ -40,6 +40,14 @@ const OperadorService = {
       method: 'DELETE',
     });
   },
+
+  login: async (id: number): Promise<Operador> => {
+    const { data } = await useApiRequest<Operador>(`/operadores/${id}/login`, {
+      method: 'GET',
+    });
+
+    return data;
+  },
 };
 
 export default OperadorService;

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { useUnidadeStore } from '@/stores/unidadeStore';
-import { useBreadcrumbStore } from '@/stores/breadcrumbStore';
-import SalaoService from '@/services/SalaoService';
-import type { Salao } from '@/types/Salao';
 import { GridStack } from 'gridstack';
 import type {
   GridItemHTMLElement,
@@ -11,6 +7,10 @@ import type {
 } from 'gridstack';
 import 'gridstack/dist/gridstack.min.css';
 
+import { useUnidadeStore } from '@/stores/unidadeStore';
+import { useBreadcrumbStore } from '@/stores/breadcrumbStore';
+import SalaoService from '@/services/SalaoService';
+import type { Salao } from '@/types/Salao';
 import {
   MesaPequenaCircular,
   MesaPequenaQuadrada,
@@ -19,6 +19,7 @@ import {
 
 definePageMeta({
   layout: 'clean',
+  middleware: ['operador-authenticated'],
 });
 
 type ItemMesa = {
@@ -70,18 +71,6 @@ const gridInfo = ref('');
 const toast = useToast();
 let grid: GridStack | null = null; // DO NOT use ref(null) as proxies GS will break all logic when comparing structures... see https://github.com/gridstack/gridstack.js/issues/2115
 const mesasData = ref<any[]>([]);
-
-onMounted(() => {
-  getSaloes();
-
-  grid = GridStack.init({
-    float: true,
-    minRow: 12,
-    cellHeight: 65,
-    disableResize: true,
-    disableDrag: true,
-  });
-});
 
 const breadcrumbStore = useBreadcrumbStore();
 const unidadeStore = useUnidadeStore();
@@ -211,6 +200,18 @@ watch(
     carregarLayout();
   },
 );
+
+onMounted(() => {
+  getSaloes();
+
+  grid = GridStack.init({
+    float: true,
+    minRow: 12,
+    cellHeight: 65,
+    disableResize: true,
+    disableDrag: true,
+  });
+});
 </script>
 
 <template>

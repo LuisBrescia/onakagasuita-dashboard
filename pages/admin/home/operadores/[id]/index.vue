@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { ref, onBeforeMount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useToast } from 'primevue/usetoast';
+import { useConfirm } from 'primevue/useconfirm';
+import SalaoService from '@/services/SalaoService';
+import OperadorService from '@/services/OperadorService';
 import type { SalaoRequest } from '@/types/Salao';
 import { DiasSemana } from '@/enums/DiasSemana';
 import { formatarHorario } from '@/utils/formatarHorario';
-import { useToast } from 'primevue/usetoast';
-import SalaoService from '@/services/SalaoService';
-import { useRoute, useRouter } from 'vue-router';
 import { useBreadcrumbStore } from '@/stores/breadcrumbStore';
-import { ref, onBeforeMount } from 'vue';
 import { useUnidadeStore } from '@/stores/unidadeStore';
-import { useConfirm } from 'primevue/useconfirm';
-import OperadorService from '~/services/OperadorService';
+import { useOperadorStore } from '@/stores/operadorStore';
 
 definePageMeta({
   layout: 'admin',
@@ -18,18 +19,19 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
+const confirm = useConfirm();
+const toast = useToast();
+
 const breadcrumbStore = useBreadcrumbStore();
 const unidadeStore = useUnidadeStore();
-const toast = useToast();
-const unidadeNome = unidadeStore.unidade?.nome_fantasia || 'Unidade';
+const operadorStore = useOperadorStore();
 
+const unidadeNome = unidadeStore.unidade?.nome_fantasia || 'Unidade';
+const originalData = ref<any>({});
 const formData = ref<any>({
   login: '',
   label: '',
 });
-
-const originalData = ref<any>({});
-
 const isEditing = ref({
   login: false,
   senha: false,
@@ -98,6 +100,19 @@ const handleCancelIcon = () => {
   isEditing.value.icon = false;
 };
 
+const getOperador = async () => {
+  const operador = await OperadorService.get(Number(route.params.id));
+  formData.value = {
+    login: operador.login,
+    label: operador.label,
+    senha: operador.senha,
+    icon: operador.icon,
+  };
+
+  // Criar uma cópia profunda dos dados originais
+  originalData.value = JSON.parse(JSON.stringify(formData.value));
+};
+
 const updateOperador = async (id: number, salaoRequest: any) => {
   try {
     await OperadorService.update(id, salaoRequest);
@@ -116,12 +131,14 @@ const updateOperador = async (id: number, salaoRequest: any) => {
   }
 };
 
-const deleteSalao = async () => {
+const deleteOperador = async () => {
   try {
     await OperadorService.delete(Number(route.params.id));
     toast.add({
       severity: 'success',
       summary: 'Operador apagado com sucesso',
+      detail:
+        'Caso esteja autenticado, será redirecionado para a página de login.',
       life: 3000,
     });
     router.push('/admin/home/operadores');
@@ -135,17 +152,67 @@ const deleteSalao = async () => {
   }
 };
 
-const getOperador = async () => {
-  const operador = await OperadorService.get(Number(route.params.id));
-  formData.value = {
-    login: operador.login,
-    label: operador.label,
-    senha: operador.senha,
-    icon: operador.icon,
-  };
+const loginOperador = async () => {
+  try {
+    const res = await OperadorService.login(Number(route.params.id));
+    toast.add({
+      severity: 'success',
+      summary: 'Operador apagado com sucesso',
+      detail:
+        'Caso esteja autenticado, será redirecionado para a página de login.',
+      life: 3000,
+    });
+    operadorStore.login(res);
+    window.open('/home/', '_blank');
+  } catch (error) {
+    console.error(error);
+    toast.add({
+      severity: 'error',
+      summary: 'Erro ao apagar operador',
+      life: 3000,
+    });
+  }
+};
 
-  // Criar uma cópia profunda dos dados originais
-  originalData.value = JSON.parse(JSON.stringify(formData.value));
+const confirmDeleteOperador = (event: any) => {
+  confirm.require({
+    target: event.currentTarget,
+    message: 'Tem certeza que deseja apagar este operador?',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancelar',
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: {
+      label: 'Confirmar',
+      severity: 'danger',
+    },
+    accept: () => {
+      deleteOperador();
+    },
+  });
+};
+
+const confirmLoginOperador = (event: any) => {
+  confirm.require({
+    target: event.currentTarget,
+    message:
+      'Isso encerrará a sessão atual de outras pessoas conectadas ao operador.',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancelar',
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: {
+      label: 'Confirmar',
+      severity: 'info',
+    },
+    accept: () => {
+      loginOperador();
+    },
+  });
 };
 
 onBeforeMount(async () => {
@@ -163,27 +230,6 @@ onBeforeMount(async () => {
     },
   ]);
 });
-
-const confirm = useConfirm();
-const confirmDeleteSalao = (event: any) => {
-  confirm.require({
-    target: event.currentTarget,
-    message: 'Tem certeza que deseja apagar este operador?',
-    icon: 'pi pi-exclamation-triangle',
-    rejectProps: {
-      label: 'Cancelar',
-      severity: 'secondary',
-      outlined: true,
-    },
-    acceptProps: {
-      label: 'Confirmar',
-      severity: 'danger',
-    },
-    accept: () => {
-      deleteSalao();
-    },
-  });
-};
 </script>
 
 <template>
@@ -204,6 +250,7 @@ const confirmDeleteSalao = (event: any) => {
           size="small"
           icon="pi pi-sync"
           label="Entrar como operador"
+          @click="confirmLoginOperador"
         />
 
         <Button
@@ -211,6 +258,7 @@ const confirmDeleteSalao = (event: any) => {
           size="small"
           icon="pi pi-trash"
           label="Apagar operador"
+          @click="confirmDeleteOperador"
         />
       </template>
     </TheTopbar>

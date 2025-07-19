@@ -1,6 +1,7 @@
 <script setup>
 import AuthService from '@/services/AuthService';
 import { useUsuarioStore } from '@/stores/usuarioStore';
+import { useOperadorStore } from '@/stores/operadorStore';
 
 const route = useRoute();
 const formData = ref({
@@ -12,6 +13,7 @@ const formData = ref({
 const validationErrors = ref({});
 const generalErrorMessage = ref('');
 const handleSubmitLoading = ref(false);
+
 const handleSubmit = async () => {
   handleSubmitLoading.value = true;
   validationErrors.value = {};
@@ -25,11 +27,12 @@ const handleSubmit = async () => {
       navigateTo('/admin/home');
     } else {
       const res = await AuthService.loginOperador(formData.value);
-      const usuarioStore = useUsuarioStore();
-      usuarioStore.loginOperador(res);
-      navigateTo('/home');
+      const operadorStore = useOperadorStore();
+      operadorStore.login(res);
+      navigateTo('/home/');
     }
   } catch (err) {
+    console.error('Login error:', err);
     if (err.status == 500) {
       generalErrorMessage.value =
         'Sistema indisponível no momento. Tente novamente mais tarde.';
