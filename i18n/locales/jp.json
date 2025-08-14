@@ -1,0 +1,117 @@
+{
+  "welcome": "ようこそ",
+  "login": "ログイン",
+  "logout": "ログアウト",
+  "username": "ユーザー名",
+  "email": "メール",
+  "password": "パスワード",
+  "telefone": "電話",
+  "name": "名前",
+  "submit": "送信",
+  "or": "または",
+  "register": "登録",
+  "recoverPassword": "パスワードを回復する",
+  "lastModified": "最終更新日",
+  "createdAt": "作成日",
+  "updatedAt": "更新日",
+  "profile": "プロフィール",
+  "settings": "設定",
+  "goBack": "戻る",
+  "common": {
+    "newProject": "新しいプロジェクト",
+    "loading": "読み込み中",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "view": "表示",
+    "search": "検索",
+    "actions": "アクション",
+    "yes": "はい",
+    "no": "いいえ",
+    "projectInputHint": "改行で区切られた1つまたは複数のURLを入力するか、完全なテキストを貼り付けてください。",
+    "addFromInput": "入力から追加",
+    "removeItem": "アイテムを削除",
+    "editItem": "アイテムを編集",
+    "deleteItem": "アイテムを削除",
+    "confirmDelete": "削除を確認",
+    "areYouSure": "本当に削除しますか"
+  },
+
+  "project": {
+    "unnamed": "名前のないプロジェクト",
+    "loading": "プロジェクトデータを読み込み中...",
+    "notFound": "プロジェクトが見つかりません。",
+    "details": "プロジェクトの詳細",
+    "createdAt": "作成日",
+    "lastModified": "最終更新日",
+    "actions": {
+      "access": "プロジェクトにアクセス",
+      "add": "プロジェクトを追加",
+      "edit": "プロジェクトを編集",
+      "delete": "プロジェクトを削除"
+    }
+  },
+
+  "projects": {
+    "loading": "プロジェクトを読み込み中...",
+    "notFound": "プロジェクトが見つかりません。"
+  },
+
+  "dictionary": {
+    "title": "辞書",
+    "description": "ここで辞書を管理します。",
+    "columns": {
+      "name": "名前",
+      "owner": "所有者",
+      "type": "タイプ",
+      "date": "日付"
+    },
+    "actions": {
+      "add": "辞書を追加",
+      "edit": "辞書を編集",
+      "delete": "辞書を削除"
+    },
+    "messages": {
+      "noDictionariesFound": "辞書が見つかりませんでした。"
+    }
+  },
+
+  "corpora": {
+    "title": "コーパス",
+    "description": "ここでコーパスを管理します。",
+    "columns": {
+      "name": "名前",
+      "owner": "所有者",
+      "text_quantity": "テキスト量",
+      "tags": "タグ"
+    },
+    "actions": {
+      "add": "コーパスを追加",
+      "edit": "コーパスを編集",
+      "delete": "コーパスを削除"
+    },
+    "messages": {
+      "noCorporaFound": "コーパスが見つかりませんでした。"
+    }
+  },
+
+  "corporaTexts": {
+    "title": "コーパステキスト",
+    "description": "ここでコーパステキストを管理します。",
+    "columns": {
+      "name": "名前",
+      "owner": "所有者",
+      "text_quantity": "テキスト量",
+      "tags": "タグ"
+    },
+    "actions": {
+      "add": "コーパステキストを追加",
+      "edit": "コーパステキストを編集",
+      "delete": "コーパステキストを削除"
+    },
+    "messages": {
+      "noCorporaTextsFound": "コーパステキストが見つかりませんでした。"
+    }
+  }
+}

@@ -1,5 +1,5 @@
-import type { Usuario } from '@/types/Usuario';
-import type { Unidade } from '@/types/Unidade';
+import type { Usuario } from '@@/types/Usuario';
+import type { Unidade } from '@@/types/Unidade';
 
 export type RegisterRequest = {
   // > TODO

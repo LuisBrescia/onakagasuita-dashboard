@@ -1,0 +1,119 @@
+{
+  "welcome": "Bienvenue",
+  "login": "Connexion",
+  "logout": "Déconnexion",
+  "username": "Nom d'utilisateur",
+  "email": "Email",
+  "password": "Mot de passe",
+  "telefone": "Téléphone",
+  "name": "Nom",
+  "submit": "Soumettre",
+  "or": "ou",
+  "register": "S'inscrire",
+  "recoverPassword": "Récupérer le mot de passe",
+  "lastModified": "Dernière modification",
+  "createdAt": "Créé le",
+  "updatedAt": "Mis à jour le",
+  "profile": "Profil",
+  "settings": "Paramètres",
+  "goBack": "Retour",
+  "common": {
+    "newProject": "Nouveau projet",
+    "loading": "Chargement",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "search": "Rechercher",
+    "actions": "Actions",
+    "yes": "Oui",
+    "no": "Non",
+    "projectInputHint": "Entrez une ou plusieurs URL sur des lignes séparées ou collez un texte complet.",
+    "addFromInput": "Ajouter à partir de l'entrée",
+    "removeItem": "Supprimer l'élément",
+    "editItem": "Modifier l'élément",
+    "deleteItem": "Supprimer l'élément",
+    "confirmDelete": "Confirmer la suppression",
+    "areYouSure": "Êtes-vous sûr de vouloir supprimer"
+  },
+
+  "project": {
+    "unnamed": "Projet sans nom",
+    "loading": "Chargement des données du projet...",
+    "notFound": "Projet non trouvé.",
+    "details": "Détails du projet",
+    "createdAt": "Créé le",
+    "lastModified": "Dernière modification",
+    "actions": {
+      "access": "Accéder au projet",
+      "add": "Ajouter un projet",
+      "edit": "Modifier le projet",
+      "delete": "Supprimer le projet"
+    }
+  },
+
+  "projects": {
+    "loading": "Chargement des projets...",
+    "notFound": "Aucun projet trouvé."
+  },
+
+  "dictionary": {
+    "title": "Dictionnaire",
+    "description": "Gérez vos dictionnaires ici.",
+    "columns": {
+      "name": "Nom",
+      "owner": "Propriétaire",
+      "type": "Type",
+      "date": "Date",
+      "dict_type": "Type de dictionnaire",
+      "last_modified": "Dernière modification"
+    },
+    "actions": {
+      "add": "Ajouter un dictionnaire",
+      "edit": "Modifier le dictionnaire",
+      "delete": "Supprimer le dictionnaire"
+    },
+    "messages": {
+      "noDictionariesFound": "Aucun dictionnaire trouvé."
+    }
+  },
+
+  "corpora": {
+    "title": "Corpora",
+    "description": "Gérez vos corpora ici.",
+    "columns": {
+      "name": "Nom",
+      "owner": "Propriétaire",
+      "text_quantity": "Quantité de texte",
+      "tags": "Étiquettes"
+    },
+    "actions": {
+      "add": "Ajouter un corpus",
+      "edit": "Modifier le corpus",
+      "delete": "Supprimer le corpus"
+    },
+    "messages": {
+      "noCorporaFound": "Aucun corpus trouvé."
+    }
+  },
+
+  "corporaText": {
+    "title": "Textes du corpus",
+    "description": "Gérez les textes dans votre corpus.",
+    "columns": {
+      "title": "Titre",
+      "author": "Auteur",
+      "date": "Date",
+      "text": "Texte"
+    },
+    "actions": {
+      "add": "Ajouter un texte au corpus",
+      "edit": "Modifier le texte du corpus",
+      "delete": "Supprimer le texte du corpus"
+    },
+    "messages": {
+      "noTextsFound": "Aucun texte trouvé dans le corpus."
+    }
+  }
+}
