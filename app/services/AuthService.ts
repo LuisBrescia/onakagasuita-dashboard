@@ -16,7 +16,10 @@ const AuthService = {
     return res;
   },
   logout: async () => {
-    // > TODO @VictorReisCarlota
+    const res = await useApiRequest<LoginResponse>('/auth/logout', {
+      method: 'POST',
+    });
+    return res;
   },
 };
 

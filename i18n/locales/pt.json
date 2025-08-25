@@ -1,117 +1,44 @@
 {
-  "welcome": "Bem-vindo",
-  "login": "Entrar",
-  "logout": "Sair",
-  "username": "Nome de usuário",
-  "email": "Email",
-  "password": "Senha",
-  "telefone": "Telefone",
-  "name": "Nome",
-  "submit": "Enviar",
-  "or": "ou",
-  "register": "Registrar",
-  "recoverPassword": "Recuperar Senha",
-  "lastModified": "Última Modificação",
-  "createdAt": "Criado em",
-  "updatedAt": "Atualizado em",
-  "profile": "Perfil",
-  "settings": "Configurações",
-  "goBack": "Voltar",
-  "common": {
-    "newProject": "Novo Projeto",
-    "loading": "Carregando",
+  "settings": {
+    "header": "Configurações",
+    "theme": "Tema",
+    "themeOptions": {
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
+    "language": "Idioma"
+  },
+  "pages": {
+    "admin": {
+      "home": "Início",
+      "integrations": "Integrações",
+      "voucher": "Voucher",
+      "financial": "Financeiro",
+      "benefits_plans": "Planos de Benefícios"
+    },
+    "structure": "Estrutura",
+    "schedules": "Horários",
+    "business": "Regras de Negócio",
+    "operators": "Operadores",
+    "clients": "Clientes"
+  },
+  "profile": {
+    "header": "Meu perfil",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "actions": {
     "save": "Salvar",
     "cancel": "Cancelar",
+    "back": "Voltar",
     "delete": "Excluir",
-    "edit": "Editar",
-    "view": "Ver",
-    "search": "Pesquisar",
-    "actions": "Ações",
-    "yes": "Sim",
-    "no": "Não",
-    "projectInputHint": "Insira uma ou mais URLs em linhas separadas ou cole um texto completo.",
-    "addFromInput": "Adicionar a partir da entrada",
-    "removeItem": "Remover Item",
-    "editItem": "Editar Item",
-    "deleteItem": "Excluir Item",
-    "confirmDelete": "Confirmar Exclusão",
-    "areYouSure": "Tem certeza que deseja excluir"
+    "add": "Adicionar",
+    "tour": "Tour"
   },
-
-  "project": {
-    "unnamed": "Projeto sem nome",
-    "loading": "Carregando dados do projeto...",
-    "notFound": "Projeto não encontrado.",
-    "details": "Detalhes do Projeto",
-    "createdAt": "Criado em",
-    "lastModified": "Última Modificação",
+  "structure": {
     "actions": {
-      "access": "Acessar projeto",
-      "add": "Adicionar projeto",
-      "edit": "Editar projeto",
-      "delete": "Excluir projeto"
-    }
-  },
-
-  "projects": {
-    "loading": "Carregando projetos...",
-    "notFound": "Nenhum projeto encontrado."
-  },
-
-  "dictionary": {
-    "title": "Dicionário",
-    "description": "Gerencie seus dicionários aqui.",
-    "columns": {
-      "name": "Nome",
-      "owner": "Proprietário",
-      "type": "Tipo",
-      "date": "Data"
-    },
-    "actions": {
-      "add": "Adicionar Dicionário",
-      "edit": "Editar Dicionário",
-      "delete": "Excluir Dicionário"
-    },
-    "messages": {
-      "noDictionariesFound": "Nenhum dicionário encontrado."
-    }
-  },
-
-  "corpora": {
-    "title": "Corpora",
-    "description": "Gerencie seus corpora aqui.",
-    "columns": {
-      "name": "Nome",
-      "owner": "Proprietário",
-      "text_quantity": "Quantidade de Texto",
-      "tags": "Tags"
-    },
-    "actions": {
-      "add": "Adicionar Corpora",
-      "edit": "Editar Corpora",
-      "delete": "Excluir Corpora"
-    },
-    "messages": {
-      "noCorporaFound": "Nenhum corpora encontrado."
-    }
-  },
-  
-  "corporaText": {
-    "title": "Corpora Texto",
-    "description": "Gerencie seus corpora de texto aqui.",
-    "columns": {
-      "name": "Nome",
-      "owner": "Proprietário",
-      "text_quantity": "Quantidade de Texto",
-      "tags": "Tags"
-    },
-    "actions": {
-      "add": "Adicionar Corpora Texto",
-      "edit": "Editar Corpora Texto",
-      "delete": "Excluir Corpora Texto"
-    },
-    "messages": {
-      "noCorporaTextFound": "Nenhum corpora de texto encontrado."
+      "build_layout": "Montar layout"
     }
   }
 }

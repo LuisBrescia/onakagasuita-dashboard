@@ -20,6 +20,7 @@ const router = useRouter();
 const breadcrumbStore = useBreadcrumbStore();
 const unidadeStore = useUnidadeStore();
 const toast = useToast();
+const localePath = useLocalePath();
 const unidadeNome = unidadeStore.unidade?.nome_fantasia || 'Unidade';
 
 const formData = ref<any>({
@@ -246,16 +247,16 @@ const confirmDeleteSalao = (event: any) => {
     <TheTopbar>
       <template #actions>
         <Button
-          label="Voltar"
-          @click="navigateTo('/admin/home/estrutura')"
+          :label="$t('actions.back')"
           size="small"
           outlined
           icon="pi pi-arrow-left"
           severity="secondary"
+          @click="navigateTo(localePath('/admin/home/estrutura'))"
         />
 
         <Button
-          label="Montar layout"
+          :label="$t('structure.actions.build_layout')"
           icon="pi pi-th-large"
           size="small"
           severity="info"
@@ -302,7 +303,7 @@ const confirmDeleteSalao = (event: any) => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text
@@ -352,7 +353,7 @@ const confirmDeleteSalao = (event: any) => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text
@@ -408,7 +409,7 @@ const confirmDeleteSalao = (event: any) => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text
@@ -465,7 +466,7 @@ const confirmDeleteSalao = (event: any) => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text

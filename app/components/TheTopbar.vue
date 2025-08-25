@@ -16,7 +16,7 @@
         icon="pi pi-info-circle"
         severity="secondary"
         outlined
-        label="Tour"
+        :label="$t('actions.tour')"
       />
     </div>
 

@@ -42,7 +42,7 @@ onMounted(() => {
         <Button
           size="small"
           icon="pi pi-plus"
-          label="Adicionar"
+          :label="$t('actions.add')"
           @click="navigateTo('/admin/home/estrutura/adicionar')"
         />
       </template>

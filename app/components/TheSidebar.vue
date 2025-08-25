@@ -16,71 +16,70 @@ import { useUsuarioStore } from '@/stores/usuarioStore';
 import { useUnidadeStore } from '@/stores/unidadeStore';
 
 const emits = defineEmits(['unidade-selected']);
+const localePath = useLocalePath();
 
-const itemsSidebar = [
-  // * Seção geral
-  [
+const itemsSidebar = computed(() => ({
+  admin: [
     {
       icon: Home,
-      label: 'Início',
-      to: '/admin/home',
+      label: $t('pages.admin.home'),
+      to: localePath('/admin/home'),
     },
     {
       icon: Workflow,
-      label: 'Integrações',
-      to: '/admin/home/integracoes',
+      label: $t('pages.admin.integrations'),
+      to: localePath('/admin/home/integracoes'),
       disabled: true,
     },
     {
       icon: TagIcon,
-      label: 'Voucher',
-      to: '/admin/home/vouchers',
+      label: $t('pages.admin.voucher'),
+      to: localePath('/admin/home/vouchers'),
       disabled: true,
     },
     {
       icon: Wallet,
-      label: 'Financeiro',
-      to: '/admin/home/financeiro',
+      label: $t('pages.admin.financial'),
+      to: localePath('/admin/home/financeiro'),
       disabled: true,
     },
     {
       icon: HeartPulse,
-      label: 'Planos e benefícios',
-      to: '/admin/home/planos',
+      label: $t('pages.admin.benefits_plans'),
+      to: localePath('/admin/home/planos'),
       disabled: true,
     },
   ],
-  // * Específicos de unidade
-  [
+  user: [
     {
       icon: Store,
-      label: 'Estrutura',
-      to: '/admin/home/estrutura',
+      label: $t('pages.structure'),
+      to: localePath('/admin/home/estrutura'),
     },
     {
       icon: Clock,
-      label: 'Horários',
-      to: '/admin/home/horarios',
+      label: $t('pages.schedules'),
+      to: localePath('/admin/home/horarios'),
       disabled: true,
     },
     {
       icon: BookOpen,
-      label: 'Regras de negócio',
-      to: '/admin/home/regras',
+      label: $t('pages.business'),
+      to: localePath('/admin/home/regras'),
       disabled: true,
     },
     {
       icon: Pickaxe,
-      label: 'Operadores',
-      to: '/admin/home/operadores',
+      label: $t('pages.operators'),
+      to: localePath('/admin/home/operadores'),
     },
     {
       icon: UsersRound,
-      label: 'Clientes',
-      to: '/admin/home/clientes',
+      label: $t('pages.clients'),
+      to: localePath('/admin/home/clientes'),
     },
   ],
-];
+}));
 const nextChangeIcon = {
   'pi-arrow-left': 'pi-arrow-right',
   'pi-arrow-right': 'pi-arrow-left',
@@ -95,11 +94,9 @@ const viewWrapperStore = useViewWrapperStore();
 const dialogConfirmarSaida = ref(false);
 const dialogConfiguracoes = ref(false);
 const popoverDadosPerfil = ref();
-const panelStatusIcon = ref(
-  viewWrapperStore.sidebarOpen ? 'pi-arrow-left' : 'pi-arrow-right',
-);
+const panelStatusIcon = ref(viewWrapperStore.sidebarOpen ? 'pi-arrow-left' : 'pi-arrow-right');
 
-const openPerfilPopover = (event) => {
+const openPerfilPopover = event => {
   popoverDadosPerfil.value.toggle(event);
 };
 
@@ -143,7 +140,7 @@ const handleLogout = async () => {
     <div class="c-sidebar__body">
       <h4 class="c-sidebar__body__header mb-2 px-4">Admin</h4>
 
-      <template v-for="item in itemsSidebar[0]" :key="item">
+      <template v-for="item in itemsSidebar.admin" :key="item">
         <NuxtLink v-if="!item.disabled" :to="item.to">
           <div class="c-sidebar__item px-4 py-2">
             <component :is="item.icon" :size="16" />
@@ -153,7 +150,7 @@ const handleLogout = async () => {
         <div
           v-else
           class="c-sidebar__item flex justify-between px-4 py-2"
-          style="cursor: not-allowed !important"
+          style="cursor: not-allowed !important; opacity: 0.5"
         >
           <component :is="item.icon" :size="16" />
           <span class="ml-2 text-nowrap">{{ item.label }}</span>
@@ -166,10 +163,8 @@ const handleLogout = async () => {
 
       <SelectUnidade @unidade-selected="emits('unidade-selected')" />
 
-      <span
-        :class="!unidadeStore.unidade ? 'pointer-events-none opacity-50' : ''"
-      >
-        <template v-for="item in itemsSidebar[1]" :key="item">
+      <span :class="!unidadeStore.unidade ? 'pointer-events-none opacity-50' : ''">
+        <template v-for="item in itemsSidebar.user" :key="item">
           <NuxtLink v-if="!item.disabled" :to="item.to">
             <div
               class="c-sidebar__item px-4 py-2"
@@ -182,7 +177,7 @@ const handleLogout = async () => {
           <div
             v-else
             class="c-sidebar__item flex justify-between px-4 py-2"
-            style="cursor: not-allowed !important"
+            style="cursor: not-allowed !important; opacity: 0.5"
           >
             <component :is="item.icon" :size="16" />
             <span class="ml-2 text-nowrap">{{ item.label }}</span>
@@ -193,10 +188,7 @@ const handleLogout = async () => {
 
     <div class="c-sidebar__item p-3" @click="openPerfilPopover">
       <div class="flex items-center gap-2">
-        <AppAvatar
-          v-if="usuarioStore.user.nome"
-          :letra="usuarioStore.user.nome[0]"
-        />
+        <AppAvatar v-if="usuarioStore.user.nome" :letra="usuarioStore.user.nome[0]" />
         <Skeleton v-else shape="circle" size="1.6rem" />
         <span class="!ml-2">{{ usuarioStore.user.nome }}</span>
       </div>
@@ -223,11 +215,7 @@ const handleLogout = async () => {
   >
     <div class="flex w-[16.8rem] flex-col text-sm">
       <div class="py-4 text-center">
-        <AppAvatar
-          v-if="usuarioStore.user.nome"
-          size="xlarge"
-          :letra="usuarioStore.user.nome[0]"
-        />
+        <AppAvatar v-if="usuarioStore.user.nome" size="xlarge" :letra="usuarioStore.user.nome[0]" />
         <Skeleton v-else shape="circle" size="3.2rem" class="mx-auto" />
         <div class="mt-2">
           <h4 class="mb-1 text-sm dark:text-surface-0">
@@ -239,12 +227,10 @@ const handleLogout = async () => {
         </div>
       </div>
 
-      <div
-        class="interativo flex cursor-pointer items-center justify-between px-6 py-3 text-xs"
-      >
+      <div class="interativo flex cursor-pointer items-center justify-between px-6 py-3 text-xs">
         <div class="flex items-center">
           <IconCircleUserRound :size="16" />
-          <span class="ml-4">Meu perfil</span>
+          <span class="ml-4">{{ $t('profile.header') }}</span>
         </div>
         <Tag
           class="capitalize"
@@ -260,7 +246,7 @@ const handleLogout = async () => {
         @click="dialogConfiguracoes = true"
       >
         <IconSettings :size="16" />
-        <span class="ml-4">Configurações</span>
+        <span class="ml-4">{{ $t('profile.settings') }}</span>
       </div>
 
       <div class="my-2 h-[1px] bg-surface-300 dark:bg-surface-700" />
@@ -270,7 +256,7 @@ const handleLogout = async () => {
         @click="dialogConfirmarSaida = true"
       >
         <IconLogOut :size="16" />
-        <span class="ml-4">Deslogar</span>
+        <span class="ml-4">{{ $t('profile.logout') }}</span>
       </div>
     </div>
   </Popover>
@@ -293,12 +279,7 @@ const handleLogout = async () => {
         severity="secondary"
         @click="dialogConfirmarSaida = false"
       />
-      <Button
-        label="Confirmar"
-        size="small"
-        severity="danger"
-        @click="handleLogout"
-      />
+      <Button label="Confirmar" size="small" severity="danger" @click="handleLogout" />
     </div>
   </Dialog>
 

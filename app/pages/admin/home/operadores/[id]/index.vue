@@ -234,7 +234,7 @@ onBeforeMount(async () => {
     <TheTopbar>
       <template #actions>
         <Button
-          label="Voltar"
+          :label="$t('actions.back')"
           @click="navigateTo('/admin/home/operadores')"
           size="small"
           outlined
@@ -290,7 +290,7 @@ onBeforeMount(async () => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text
@@ -337,7 +337,7 @@ onBeforeMount(async () => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text
@@ -417,7 +417,7 @@ onBeforeMount(async () => {
             <Button
               class="mr-2"
               severity="success"
-              label="Salvar"
+              :label="$t('actions.save')"
               size="small"
               icon="pi pi-check"
               text

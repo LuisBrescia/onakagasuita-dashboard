@@ -11,6 +11,7 @@ definePageMeta({
   middleware: ['authenticated', 'unidade-must-selected'],
 });
 
+const localePath = useLocalePath();
 const breadcrumbStore = useBreadcrumbStore();
 const unidadeStore = useUnidadeStore();
 const toast = useToast();
@@ -97,19 +98,19 @@ const getSalao = async (id: number) => {
     <TheTopbar>
       <template #actions>
         <Button
-          label="Voltar"
-          @click="navigateTo('/admin/home/estrutura')"
+          :label="$t('actions.back')"
           size="small"
           outlined
           icon="pi pi-arrow-left"
           severity="secondary"
+          @click="navigateTo(localePath('/admin/home/estrutura'))"
         />
 
         <Button
           severity="success"
           size="small"
           icon="pi pi-save"
-          label="Salvar"
+          :label="$t('actions.save')"
           :loading="handleFormSubmitLoading"
           @click="handleFormSubmit"
         />

@@ -179,7 +179,7 @@ onMounted(() => {
 
             <div class="flex gap-4">
               <Button
-                label="Voltar"
+                :label="$t('actions.back')"
                 severity="secondary"
                 size="small"
                 class="w-28"
@@ -223,7 +223,7 @@ onMounted(() => {
 
             <div class="flex gap-4">
               <Button
-                label="Voltar"
+                :label="$t('actions.back')"
                 severity="secondary"
                 size="small"
                 class="w-28"
@@ -275,7 +275,7 @@ onMounted(() => {
 
             <div class="flex gap-4">
               <Button
-                label="Voltar"
+                :label="$t('actions.back')"
                 severity="secondary"
                 size="small"
                 class="w-28"

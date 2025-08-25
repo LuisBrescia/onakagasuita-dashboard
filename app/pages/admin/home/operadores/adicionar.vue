@@ -78,7 +78,7 @@ const updateOperador = async (id: number, operadorRequest: any) => {
     <TheTopbar>
       <template #actions>
         <Button
-          label="Voltar"
+          :label="$t('actions.back')"
           @click="navigateTo('/admin/home/operadores')"
           size="small"
           outlined
@@ -90,7 +90,7 @@ const updateOperador = async (id: number, operadorRequest: any) => {
           severity="success"
           size="small"
           icon="pi pi-save"
-          label="Salvar"
+          :label="$t('actions.save')"
           :loading="handleFormSubmitLoading"
           @click="handleFormSubmit"
         />
@@ -111,11 +111,7 @@ const updateOperador = async (id: number, operadorRequest: any) => {
           <!--* Login -->
           <div class="flex flex-col gap-2">
             <label for="login">Login</label>
-            <InputText
-              id="login"
-              v-model="formData.login"
-              aria-describedby="login-help"
-            />
+            <InputText id="login" v-model="formData.login" aria-describedby="login-help" />
           </div>
 
           <div class="flex flex-col gap-2">
@@ -146,8 +142,7 @@ const updateOperador = async (id: number, operadorRequest: any) => {
               <div
                 class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
                 :style="{
-                  outline:
-                    formData.icon === 'desktop' ? '2px solid #FFC239' : '',
+                  outline: formData.icon === 'desktop' ? '2px solid #FFC239' : '',
                 }"
                 @click="formData.icon = 'desktop'"
               >
@@ -165,8 +160,7 @@ const updateOperador = async (id: number, operadorRequest: any) => {
               <div
                 class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
                 :style="{
-                  outline:
-                    formData.icon === 'smartphone' ? '2px solid #FFC239' : '',
+                  outline: formData.icon === 'smartphone' ? '2px solid #FFC239' : '',
                 }"
                 @click="formData.icon = 'smartphone'"
               >
@@ -175,8 +169,7 @@ const updateOperador = async (id: number, operadorRequest: any) => {
               <div
                 class="interativo cursor-pointer rounded-sm border border-surface-300 bg-surface-0 p-4 dark:border-surface-700 dark:bg-surface-900"
                 :style="{
-                  outline:
-                    formData.icon === 'laptop' ? '2px solid #FFC239' : '',
+                  outline: formData.icon === 'laptop' ? '2px solid #FFC239' : '',
                 }"
                 @click="formData.icon = 'laptop'"
               >

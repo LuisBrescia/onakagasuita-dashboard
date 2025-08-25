@@ -2,10 +2,11 @@ import { defineStore } from 'pinia';
 import type { Usuario } from '@@/types/Usuario';
 import type { LoginResponse } from '@@/types/Auth';
 import { useUnidadeStore } from '@/stores/unidadeStore';
+import AuthService from '@/services/AuthService';
 
 export const useUsuarioStore = defineStore('usuarioStore', {
   state: () => ({
-    _user: {} as Usuario | {},
+    _user: {} as Partial<Usuario>,
     _token: null as string | null,
   }),
   getters: {
@@ -25,10 +26,11 @@ export const useUsuarioStore = defineStore('usuarioStore', {
       const unidadeStore = useUnidadeStore();
       unidadeStore.setUnidade(null);
     },
-    async logout({ forced } = { forced: false }) {
+    // async logout({ forced } = { forced: false }) {
+    async logout() {
+      await AuthService.logout();
       this._token = null;
       this._user = {};
-
       return navigateTo('/admin/login');
       // > TODO aqui devera enviar uma requisição para o servidor para invalidar o token @VictorReisCarlota
     },

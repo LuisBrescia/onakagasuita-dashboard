@@ -1,120 +1,44 @@
 {
-  "welcome": "Welcome",
-  "login": "Login",
-  "logout": "Logout",
-  "username": "Username",
-  "email": "Email",
-  "password": "Password",
-  "telefone": "Phone",
-  "name": "Name",
-  "submit": "Submit",
-  "or": "or",
-  "register": "Register",
-  "recoverPassword": "Recover Password",
-  "lastModified": "Last Modified",
-  "createdAt": "Created At",
-  "updatedAt": "Updated At",
-  "profile": "Profile",
-  "settings": "Settings",
-  "goBack": "Back",
-  "common": {
-    "newProject": "New Project",
-    "loading": "Loading",
+  "pages": {
+    "admin": {
+      "home": "Home",
+      "integrations": "Integrations",
+      "voucher": "Voucher",
+      "financial": "Financial",
+      "benefits_plans": "Benefits Plans"
+    },
+    "structure": "Structure",
+    "schedules": "Schedules",
+    "business": "Business Rules",
+    "operators": "Operators",
+    "clients": "Clients"
+  },
+  "profile": {
+    "header": "My profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+    "settings": {
+    "header": "Settings",
+    "theme": "Theme",
+    "themeOptions": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": "Language"
+  },
+  "actions": {
     "save": "Save",
     "cancel": "Cancel",
+    "back": "Back",
     "delete": "Delete",
-    "edit": "Edit",
-    "view": "View",
-    "search": "Search",
-    "actions": "Actions",
-    "yes": "Yes",
-    "no": "No",
-    "projectInputHint": "Enter one or more URLs on separate lines or paste a full text.",
-    "addFromInput": "Add from input",
-    "removeItem": "Remove Item",
-    "editItem": "Edit Item",
-    "deleteItem": "Delete Item",
-    "confirmDelete": "Confirm Delete",
-    "areYouSure": "Are you sure you want to delete"
+    "add": "Add",
+    "tour": "Tour"
   },
-
-  "project": {
-    "unnamed": "Unnamed Project",
-    "loading": "Loading project data...",
-    "notFound": "Project not found.",
-    "details": "Project Details",
-    "createdAt": "Created At",
-    "lastModified": "Last Modified",
+  "structure": {
     "actions": {
-      "add": "Add project",
-      "edit": "Edit project",
-      "delete": "Delete project",
-      "access": "Access project"
-    }
-  },
-
-  "projects": {
-    "loading": "Loading projects...",
-    "notFound": "No projects found."
-  },
-
-  "dictionary": {
-    "title": "Dictionary",
-    "description": "Manage your dictionaries here.",
-    "columns": {
-      "name": "Name",
-      "owner": "Owner",
-      "type": "Type",
-      "date": "Date",
-      "dict_type": "Dictionary Type",
-      "last_modified": "Last Modified"
-    },
-    "actions": {
-      "access": "Access dictionary",
-      "add": "Add dictionary",
-      "edit": "Edit dictionary",
-      "delete": "Delete dictionary"
-    },
-    "messages": {
-      "noDictionariesFound": "No dictionaries found."
-    }
-  },
-
-  "corpora": {
-    "title": "Corpora",
-    "description": "Manage your corpora here.",
-    "columns": {
-      "name": "Name",
-      "owner": "Owner",
-      "text_quantity": "Text Quantity",
-      "tags": "Tags"
-    },
-    "actions": {
-      "add": "Add Corpus",
-      "edit": "Edit Corpus",
-      "delete": "Delete Corpus"
-    },
-    "messages": {
-      "noCorporaFound": "No corpora found."
-    }
-  },
-
-  "corporaText": {
-    "title": "Corpus Texts",
-    "description": "Manage texts in your corpus.",
-    "columns": {
-      "title": "Title",
-      "date": "Date",
-      "text": "Text",
-      "author": "Author"
-    },
-    "actions": {
-      "add": "Add Text",
-      "edit": "Edit Text",
-      "delete": "Delete Text"
-    },
-    "messages": {
-      "noTextsFound": "No texts found."
+      "build_layout": "Build Layout"
     }
   }
 }

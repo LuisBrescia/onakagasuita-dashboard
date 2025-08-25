@@ -256,7 +256,7 @@ onBeforeMount(async () => {
     <TheTopbar>
       <template #actions>
         <Button
-          label="Voltar"
+          :label="$t('actions.back')"
           size="small"
           outlined
           icon="pi pi-arrow-left"
@@ -267,7 +267,7 @@ onBeforeMount(async () => {
           severity="success"
           size="small"
           icon="pi pi-save"
-          label="Salvar"
+          :label="$t('actions.save')"
           :loading="handleSubmitLoading"
           @click="handleSubmit"
         />
